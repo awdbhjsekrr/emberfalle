@@ -1,0 +1,41 @@
+{
+  "name": "emberfalle",
+  "servePlaceIds": [
+    13109009352
+  ],
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "packages": {
+        "$path": "Packages"
+      },
+      "sharedcore": {
+        "$path": "src/core/sharedcore"
+      },
+      "shared": {
+        "$path": "src/intro/shared"
+      }
+    },
+    "ServerScriptService": {
+      "serverpackages": {
+        "$path": "ServerPackages"
+      },
+      "servercore": {
+        "$path": "src/core/servercore"
+      },
+      "server": {
+        "$path": "src/intro/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "clientcore": {
+          "$path": "src/core/clientcore"
+        },
+        "client": {
+          "$path": "src/intro/client"
+        }
+      }
+    }
+  }
+}

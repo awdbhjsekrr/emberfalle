@@ -1,0 +1,15 @@
+[package]
+name = "cherri/emberfalle"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+react = "jsdotlua/react@17.1.0"
+react-roblox = "jsdotlua/react-roblox@17.1.0"
+replicacontroller = "etheroit/replicacontroller@1.0.0"
+table-util = "sleitnick/table-util@1.2.1"
+
+[server-dependencies]
+replicaservice = "brittonfischer/replicaservice@0.1.0"
+profileservice = "grilme99/profileservice@1.0.0"
