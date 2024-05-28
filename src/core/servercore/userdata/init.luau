@@ -7,13 +7,17 @@ local ProfileService = require(ServerPackages.profileservice)
 local ReplicaService = require(ServerPackages.replicaservice)
 
 local config = {
-	profileTemplate = {},
+	profileTemplate = {
+		joinCount = 0,
+	},
 	datastore = "aaaaaaaaaaaaaaaaaaaaaaaaaaaab",
 }
 
 local playerProfileClassToken = ReplicaService.NewClassToken("PlayerProfile")
 local profileStore = ProfileService.GetProfileStore(config.datastore, config.profileTemplate)
+
 local profileCache = {}
+local replicaCache = {}
 
 local function playerAdded(player: Player)
 	local userId = player.UserId
@@ -22,25 +26,21 @@ local function playerAdded(player: Player)
 		profile:AddUserId(userId)
 		profile:Reconcile()
 		profile:ListenToRelease(function()
-			profileCache[player].Replica:Destroy()
-			profileCache[player] = nil
+			replicaCache[userId]:Destroy()
+			profileCache[userId] = nil
 			player:Kick()
 			return
 		end)
 		if player:IsDescendantOf(Players) == true then
-			local playerProfile = {
-				Profile = profile,
-				Replica = ReplicaService.NewReplica({
-					ClassToken = playerProfileClassToken,
-					Data = profile.Data,
-					Replication = "All",
-					Tags = { Player = player },
-					Parent = nil,
-					WriteLib = nil,
-				} :: any) :: any,
-				_player = player,
-			}
-			profileCache[player] = playerProfile
+			profileCache[userId] = profile
+			replicaCache[userId] = ReplicaService.NewReplica({
+				ClassToken = playerProfileClassToken,
+				Data = profile.Data,
+				Replication = "All",
+				Tags = { Player = player },
+				Parent = nil,
+				WriteLib = nil,
+			} :: any) :: any
 		else
 			profile:Release()
 		end
@@ -51,20 +51,21 @@ local function playerAdded(player: Player)
 end
 
 local function playerRemoving(player: Player)
-	local cachedProfile = profileCache[player]
+	local userId = player.UserId
+	local cachedProfile = profileCache[userId]
 	if cachedProfile then
-		local profile = cachedProfile.Profile
-		if profile then
-			profile:Release()
-			player:Kick()
-		end
+		cachedProfile:Release()
 	end
 end
 
 local function waitForDataReady(player: Player)
+	local userId = player.UserId
 	while true do
-		if player:IsDescendantOf(Players) == false or profileCache[player] ~= nil then
-			return true
+		if not player then
+			return
+		end
+		if profileCache[userId] ~= nil and replicaCache[userId] ~= nil then
+			return
 		end
 		task.wait()
 	end
@@ -72,25 +73,18 @@ end
 
 local function get(player: Player, path: { [number]: any }?): unknown
 	waitForDataReady(player)
-	local profile = profileCache[player]
-	if profile ~= nil and profile.Replica:IsActive() == true then
+	local userId = player.UserId
+	local profile = profileCache[userId]
+	local replica = replicaCache[userId]
+	if profile ~= nil and replica ~= nil and replica:IsActive() == true then
 		if path ~= nil then
-			local dir = profile.Replica.Data
-			for i, v in ipairs(path) do
-				if dir[v] ~= nil then
-					if #path == i then
-						return dir[v]
-					else
-						if typeof(dir[v]) == "table" then
-							dir = dir[v]
-						else
-							error(`Failed userdata get! Invalid path: {player}, {profile.Replica.Data}, {path}`)
-						end
-					end
-				end
+			local pointer = profile.Data
+			for i = 1, #path - 1 do
+				pointer = pointer[path[i]]
 			end
+			return pointer[path[#path]]
 		else
-			return profile.Replica.Data
+			return profile.Data
 		end
 	end
 	return
@@ -98,9 +92,16 @@ end
 
 local function set(player: Player, path: { [number]: any }, value: any)
 	waitForDataReady(player)
-	local profile = profileCache[player]
-	if profile ~= nil and profile.Replica:IsActive() == true then
-		profile.Replica:SetValue(path, value)
+	local userId = player.UserId
+	local profile = profileCache[userId]
+	local replica = replicaCache[userId]
+	if profile ~= nil and replica ~= nil and replica:IsActive() == true then
+		local pointer = profile.Data
+		for i = 1, #path - 1 do
+			pointer = pointer[path[i]]
+		end
+		pointer[path[#path]] = value
+		replica:SetValue(path, value)
 	end
 end
 

@@ -13,7 +13,7 @@
         "$path": "src/core/sharedcore"
       },
       "shared": {
-        "$path": "src/intro/shared"
+        "$path": "src/emberfalle/shared"
       }
     },
     "ServerScriptService": {
@@ -24,7 +24,7 @@
         "$path": "src/core/servercore"
       },
       "server": {
-        "$path": "src/intro/server"
+        "$path": "src/emberfalle/server"
       }
     },
     "StarterPlayer": {
@@ -33,7 +33,7 @@
           "$path": "src/core/clientcore"
         },
         "client": {
-          "$path": "src/intro/client"
+          "$path": "src/emberfalle/client"
         }
       }
     }
