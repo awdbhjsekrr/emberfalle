@@ -1,12 +1,10 @@
 local Players = game:GetService("Players")
 
+local Server = require(script.Parent.server)
 local UserData = require(script.userdata)
-
-print("Server core loaded.")
 
 local function playerAdded(player: Player)
 	UserData.increment(player, { "joinCount" }, 1)
-	print(UserData.get(player, { "joinCount" }))
 end
 
 for _, player in ipairs(Players:GetPlayers()) do
@@ -14,3 +12,5 @@ for _, player in ipairs(Players:GetPlayers()) do
 end
 
 Players.PlayerAdded:Connect(playerAdded)
+
+Server.init()
