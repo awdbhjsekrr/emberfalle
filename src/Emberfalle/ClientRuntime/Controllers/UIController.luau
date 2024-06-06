@@ -1,10 +1,10 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Packages = ReplicatedStorage:WaitForChild("packages")
-local SharedCore = ReplicatedStorage:WaitForChild("sharedcore")
+local Packages = ReplicatedStorage:WaitForChild("Packages")
+local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
 
-local Log = require(SharedCore.log)
+local Log = require(CommonCore.Log)
 local React = require(Packages.react)
 local ReactRoblox = require(Packages["react-roblox"])
 
