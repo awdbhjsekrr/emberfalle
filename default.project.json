@@ -6,34 +6,34 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
-      "packages": {
+      "Packages": {
         "$path": "Packages"
       },
-      "sharedcore": {
-        "$path": "src/core/sharedcore"
+      "CommonCore": {
+        "$path": "src/Core/CommonCore"
       },
-      "shared": {
-        "$path": "src/emberfalle/shared"
+      "Common": {
+        "$path": "src/Emberfalle/Common"
       }
     },
     "ServerScriptService": {
-      "serverpackages": {
+      "ServerPackages": {
         "$path": "ServerPackages"
       },
-      "servercore": {
-        "$path": "src/core/servercore"
+      "ServerCore": {
+        "$path": "src/Core/ServerCore"
       },
-      "server": {
-        "$path": "src/emberfalle/server"
+      "ServerRuntime": {
+        "$path": "src/Emberfalle/ServerRuntime"
       }
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "clientcore": {
-          "$path": "src/core/clientcore"
+        "ClientCore": {
+          "$path": "src/Core/ClientCore"
         },
-        "client": {
-          "$path": "src/emberfalle/client"
+        "ClientRuntime": {
+          "$path": "src/Emberfalle/ClientRuntime"
         }
       }
     }
