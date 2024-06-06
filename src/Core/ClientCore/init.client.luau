@@ -5,11 +5,11 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local SharedCore = ReplicatedStorage:WaitForChild("sharedcore")
+local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
 
-local Client = require(script.Parent.client)
-local ReplicaConnector = require(SharedCore.replicaconnector)
+local ClientRuntime = require(script.Parent.ClientRuntime)
+local ReplicaConnector = require(CommonCore.ReplicaConnector)
 
 ReplicaConnector.init()
 
-Client.init()
+ClientRuntime.start()

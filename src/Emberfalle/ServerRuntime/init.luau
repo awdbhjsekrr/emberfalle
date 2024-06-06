@@ -1,13 +1,13 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local SharedCore = ReplicatedStorage:WaitForChild("sharedcore")
+local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
 
-local Log = require(SharedCore.log)
+local Log = require(CommonCore.Log)
 
-local function init()
+local function start()
 	Log.debug("Hello world, from server!")
 end
 
 return {
-	init = init,
+	start = start,
 }

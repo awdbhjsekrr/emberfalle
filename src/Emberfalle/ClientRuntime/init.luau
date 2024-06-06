@@ -5,11 +5,11 @@ local Controllers = script.Controllers
 
 local Log = require(CommonCore.Log)
 
-local function init()
+local function start()
 	Log.debug("Hello world, from client!")
 	require(Controllers.UIController)
 end
 
 return {
-	init = init,
+	start = start,
 }

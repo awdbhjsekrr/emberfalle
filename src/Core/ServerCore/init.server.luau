@@ -5,8 +5,8 @@
 
 local Players = game:GetService("Players")
 
-local Server = require(script.Parent.server)
-local UserData = require(script.userdata)
+local Server = require(script.Parent.ServerRuntime)
+local UserData = require(script.UserData)
 
 local function playerAdded(player: Player)
 	UserData.increment(player, { "joinCount" }, 1)
@@ -18,4 +18,4 @@ end
 
 Players.PlayerAdded:Connect(playerAdded)
 
-Server.init()
+Server.start()

@@ -4,7 +4,7 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Packages = ReplicatedStorage:WaitForChild("packages")
+local Packages = ReplicatedStorage:WaitForChild("Packages")
 
 local ReplicaController = require(Packages.replicacontroller)
 

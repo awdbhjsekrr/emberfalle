@@ -1,7 +1,7 @@
 local ServerScriptService = game:GetService("ServerScriptService")
 local Players = game:GetService("Players")
 
-local ServerPackages = ServerScriptService:WaitForChild("serverpackages")
+local ServerPackages = ServerScriptService:WaitForChild("ServerPackages")
 
 local ProfileService = require(ServerPackages.profileservice)
 local ReplicaService = require(ServerPackages.replicaservice)
