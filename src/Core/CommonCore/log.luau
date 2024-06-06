@@ -1,4 +1,11 @@
-local _DEV_MODE = false
+--[[ LOG
+	Centralized debugging module to only display in studio.
+]]
+
+local RunService = game:GetService("RunService")
+
+local _IS_STUDIO = RunService:IsStudio()
+local _DEV_MODE = _IS_STUDIO
 
 local Log = {}
 

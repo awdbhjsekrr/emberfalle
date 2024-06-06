@@ -1,3 +1,7 @@
+--[[ REPLICA CONNECTOR
+	Centralized client replica handler.
+]]
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Packages = ReplicatedStorage:WaitForChild("packages")
