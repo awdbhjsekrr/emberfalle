@@ -1,10 +1,13 @@
 local ServerScriptService = game:GetService("ServerScriptService")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ServerPackages = ServerScriptService:WaitForChild("ServerPackages")
+local Common = ReplicatedStorage:WaitForChild("Common")
 
 local ProfileService = require(ServerPackages.profileservice)
 local ReplicaService = require(ServerPackages.replicaservice)
+local Log = require(Common.Core.Log)
 
 local config = {
 	profileTemplate = {
@@ -19,6 +22,8 @@ local profileStore = ProfileService.GetProfileStore(config.datastore, config.pro
 local profileCache = {}
 local replicaCache = {}
 
+local UserData = {}
+
 local function playerAdded(player: Player)
 	local userId = player.UserId
 	local profile = profileStore:LoadProfileAsync(`Player_{userId}`)
@@ -26,6 +31,7 @@ local function playerAdded(player: Player)
 		profile:AddUserId(userId)
 		profile:Reconcile()
 		profile:ListenToRelease(function()
+			Log.debug(`Releasing profile for player: {player}`)
 			replicaCache[userId]:Destroy()
 			profileCache[userId] = nil
 			player:Kick()
@@ -46,7 +52,7 @@ local function playerAdded(player: Player)
 		end
 	else
 		player:Kick("Failed to load data! Try rejoining.")
-		error(`Failed to load data: {player}`)
+		Log.warn(`Failed to load data for player: {player}`)
 	end
 end
 
@@ -110,7 +116,7 @@ local function increment(player: Player, path: { [number]: any }, value: number)
 	if typeof(currentValue) == "number" then
 		set(player, path, currentValue + value)
 	else
-		error(`Increment can only be used on numbers: {player}, {path}`)
+		Log.warn(`Increment can only be used on numbers: {player}, {path}`)
 	end
 end
 
@@ -127,8 +133,8 @@ end)
 Players.PlayerAdded:Connect(playerAdded)
 Players.PlayerRemoving:Connect(playerRemoving)
 
-return {
-	get = get,
-	set = set,
-	increment = increment,
-}
+UserData.get = get
+UserData.set = set
+UserData.increment = increment
+
+return UserData

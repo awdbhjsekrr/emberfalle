@@ -6,12 +6,12 @@ local Common = ReplicatedStorage.Common
 local Controllers = Client.Controllers
 
 local Log = require(Common.Core.Log)
+local ReplicaConnector = require(Client.Core.ReplicaConnector)
 
 local function Start()
 	Log.debug("Hello world, from client!")
+	ReplicaConnector.Start()
 	require(Controllers.UIController)
 end
 
-return {
-	Start = Start,
-}
+Start()
