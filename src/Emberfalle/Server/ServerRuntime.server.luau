@@ -1,3 +1,5 @@
+_G.__DEV__ = game:GetService("RunService"):IsStudio()
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 

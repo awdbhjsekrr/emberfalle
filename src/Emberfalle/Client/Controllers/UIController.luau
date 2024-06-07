@@ -14,6 +14,8 @@ local UIRoot = require(ClientRuntime.UI.UIRoot)
 
 local e = React.createElement
 
+local UIController = {}
+
 local function Start()
 	local container = Players.LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
@@ -28,6 +30,6 @@ local function Start()
 	Log.debug("Initialized UI under", container:GetFullName())
 end
 
-Start()
+UIController.Start = Start
 
-return nil
+return UIController
