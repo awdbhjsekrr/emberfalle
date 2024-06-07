@@ -15,7 +15,7 @@ local function createLogFunction(levelName: string, logFn: (...string) -> (), pr
 	end
 end
 
-Log.debug = createLogFunction("DEBUG", print, true)
+Log.debug = createLogFunction("", print, true)
 Log.warn = createLogFunction("WARN", warn, true)
 
 return Log
