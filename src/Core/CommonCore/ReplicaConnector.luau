@@ -51,7 +51,7 @@ local function getReplicaOfClass(className: string)
 	return waitForReplicasOfClass(className)
 end
 
-local function init()
+local function start()
 	for _, className in ipairs(classListeners) do
 		if replicas[className] == nil then
 			replicas[className] = {}
@@ -65,7 +65,7 @@ local function init()
 end
 
 return {
-	init = init,
+	start = start,
 	getReplicaOfClassByTag = getReplicaOfClassByTag,
 	getReplicaOfClass = getReplicaOfClass,
 }

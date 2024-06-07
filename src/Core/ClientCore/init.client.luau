@@ -10,6 +10,5 @@ local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
 local ClientRuntime = require(script.Parent.ClientRuntime)
 local ReplicaConnector = require(CommonCore.ReplicaConnector)
 
-ReplicaConnector.init()
-
+ReplicaConnector.start()
 ClientRuntime.start()
