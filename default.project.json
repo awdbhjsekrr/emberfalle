@@ -13,7 +13,7 @@
         "Core": {
           "$path": "src/Core/Common"
         },
-        "$path": "src/Emberfalle/Shared"
+        "$path": "src/Emberfalle/Common"
       }
     },
     "ServerScriptService": {
@@ -31,7 +31,7 @@
       "StarterPlayerScripts": {
         "Client": {
           "Core": {
-            "$path": "src/Core/ClientCore"
+            "$path": "src/Core/Client"
           },
           "$path": "src/Emberfalle/Client"
         }

@@ -5,8 +5,9 @@
 
 local Players = game:GetService("Players")
 
-local Server = require(script.Parent.ServerRuntime)
-local UserData = require(script.UserData)
+local Server = script.Parent.Parent
+
+local UserData = require(Server.Core.UserData)
 
 local function playerAdded(player: Player)
 	UserData.increment(player, { "joinCount" }, 1)

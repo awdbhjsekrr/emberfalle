@@ -1,9 +1,11 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local CommonCore = ReplicatedStorage.CommonCore
-local Controllers = script.Controllers
+local Client = script.Parent
+local Common = ReplicatedStorage.Common
 
-local Log = require(CommonCore.Log)
+local Controllers = Client.Controllers
+
+local Log = require(Common.Core.Log)
 
 local function Start()
 	Log.debug("Hello world, from client!")

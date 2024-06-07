@@ -1,8 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
+local Common = ReplicatedStorage.Common
 
-local Log = require(CommonCore.Log)
+local Log = require(Common.Core.Log)
 
 local function Start()
 	Log.debug("Hello world, from server!")

@@ -2,13 +2,13 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Packages = ReplicatedStorage.Packages
-local CommonCore = ReplicatedStorage.CommonCore
+local Common = ReplicatedStorage.Common
 local ClientRuntime = script.Parent.Parent
 
 local React = require(Packages.react)
 local ReactRoblox = require(Packages["react-roblox"])
 
-local Log = require(CommonCore.Log)
+local Log = require(Common.Core.Log)
 
 local UIRoot = require(ClientRuntime.UI.UIRoot)
 
