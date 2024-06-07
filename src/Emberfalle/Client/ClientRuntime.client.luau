@@ -1,3 +1,5 @@
+_G.__DEV__ = game:GetService("RunService"):IsStudio()
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Client = script.Parent

@@ -1,2 +1,5 @@
 std = "roblox"
 exclude = ["Packages", "ServerPackages"]
+
+[lints]
+global_usage = "allow"
