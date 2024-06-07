@@ -4,8 +4,10 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Packages = ReplicatedStorage:WaitForChild("Packages")
+local Common = ReplicatedStorage.Common
+local Packages = ReplicatedStorage.Packages
 
+local Log = require(Common.Core.Log)
 local ReplicaController = require(Packages.replicacontroller)
 
 local REQUEST_TIMEOUT = 10
@@ -23,7 +25,7 @@ local function waitForReplicasOfClass(className: string): {}?
 		local startTick = tick()
 		repeat
 			if tick() - startTick > REQUEST_TIMEOUT then
-				error("Timed out waiting for replica of class: " .. className)
+				Log.warn("Timed out waiting for replica of class: " .. className)
 				return nil
 			end
 			task.wait()
@@ -60,7 +62,7 @@ local function Start()
 		end
 		ReplicaController.ReplicaOfClassCreated(className, function(replica)
 			table.insert(replicas[className], replica)
-			print(className, " replica received:", replica:Identify())
+			Log.debug(`{className} replica received: {replica:Identify()}`)
 		end)
 	end
 	ReplicaController.RequestData()
