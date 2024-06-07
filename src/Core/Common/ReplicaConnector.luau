@@ -16,6 +16,8 @@ local classListeners = {
 
 local replicas = {}
 
+local ReplicaConnector = {}
+
 local function waitForReplicasOfClass(className: string): {}?
 	if replicas[className] == nil then
 		local startTick = tick()
@@ -51,7 +53,7 @@ local function getReplicaOfClass(className: string)
 	return waitForReplicasOfClass(className)
 end
 
-local function start()
+local function Start()
 	for _, className in ipairs(classListeners) do
 		if replicas[className] == nil then
 			replicas[className] = {}
@@ -64,8 +66,8 @@ local function start()
 	ReplicaController.RequestData()
 end
 
-return {
-	start = start,
-	getReplicaOfClassByTag = getReplicaOfClassByTag,
-	getReplicaOfClass = getReplicaOfClass,
-}
+ReplicaConnector.Start = Start
+ReplicaConnector.getReplicaOfClassByTag = getReplicaOfClassByTag
+ReplicaConnector.getReplicaOfClass = getReplicaOfClass
+
+return ReplicaConnector

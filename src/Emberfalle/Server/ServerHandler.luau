@@ -4,10 +4,10 @@ local CommonCore = ReplicatedStorage:WaitForChild("CommonCore")
 
 local Log = require(CommonCore.Log)
 
-local function start()
+local function Start()
 	Log.debug("Hello world, from server!")
 end
 
 return {
-	start = start,
+	Start = Start,
 }

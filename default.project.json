@@ -9,31 +9,31 @@
       "Packages": {
         "$path": "Packages"
       },
-      "CommonCore": {
-        "$path": "src/Core/CommonCore"
-      },
       "Common": {
-        "$path": "src/Emberfalle/Common"
+        "Core": {
+          "$path": "src/Core/Common"
+        },
+        "$path": "src/Emberfalle/Shared"
       }
     },
     "ServerScriptService": {
+      "Server": {
+        "Core": {
+          "$path": "src/Core/Server"
+        },
+        "$path": "src/Emberfalle/Server"
+      },
       "ServerPackages": {
         "$path": "ServerPackages"
-      },
-      "ServerCore": {
-        "$path": "src/Core/ServerCore"
-      },
-      "ServerRuntime": {
-        "$path": "src/Emberfalle/ServerRuntime"
       }
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "ClientCore": {
-          "$path": "src/Core/ClientCore"
-        },
-        "ClientRuntime": {
-          "$path": "src/Emberfalle/ClientRuntime"
+        "Client": {
+          "Core": {
+            "$path": "src/Core/ClientCore"
+          },
+          "$path": "src/Emberfalle/Client"
         }
       }
     }
