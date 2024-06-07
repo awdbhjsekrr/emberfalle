@@ -11,9 +11,5 @@ local Common = ReplicatedStorage:WaitForChild("Common")
 local ClientHandler = require(Client.ClientHandler)
 local ReplicaConnector = require(Common.Core.ReplicaConnector)
 
-local function Start()
-	ReplicaConnector.Start()
-	ClientHandler.Start()
-end
-
-Start()
+ReplicaConnector.Start()
+ClientHandler.Start()
