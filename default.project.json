@@ -33,6 +33,9 @@
           "Core": {
             "$path": "src/Core/Client"
           },
+          "UI": {
+            "$path": "src/Core/UI"
+          },
           "$path": "src/Emberfalle/Client"
         }
       }
