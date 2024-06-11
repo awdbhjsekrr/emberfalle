@@ -1,7 +1,7 @@
 --[[ REPLICA CONNECTOR
 	Centralized client replica handler.
 ]]
-
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Common = ReplicatedStorage.Common
@@ -51,8 +51,8 @@ local function getReplicaOfClassByTag(className: string, tagName: string, tagVal
 	return
 end
 
-local function getReplicaOfClass(className: string)
-	return waitForReplicasOfClass(className)
+local function getProfile(player: Player)
+	return getReplicaOfClassByTag("PlayerProfile", "Player", player)
 end
 
 local function Start()
@@ -70,6 +70,7 @@ end
 
 ReplicaConnector.Start = Start
 ReplicaConnector.getReplicaOfClassByTag = getReplicaOfClassByTag
-ReplicaConnector.getReplicaOfClass = getReplicaOfClass
+ReplicaConnector.waitForReplicasOfClass = waitForReplicasOfClass
+ReplicaConnector.getProfile = getProfile
 
 return ReplicaConnector

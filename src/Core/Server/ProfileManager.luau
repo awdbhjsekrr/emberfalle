@@ -22,7 +22,7 @@ local profileStore = ProfileService.GetProfileStore(config.datastore, config.pro
 local profileCache = {}
 local replicaCache = {}
 
-local UserData = {}
+local ProfileManager = {}
 
 local function playerAdded(player: Player)
 	local userId = player.UserId
@@ -133,8 +133,8 @@ end)
 Players.PlayerAdded:Connect(playerAdded)
 Players.PlayerRemoving:Connect(playerRemoving)
 
-UserData.get = get
-UserData.set = set
-UserData.increment = increment
+ProfileManager.get = get
+ProfileManager.set = set
+ProfileManager.increment = increment
 
-return UserData
+return ProfileManager

@@ -6,11 +6,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Server = script.Parent
 local Common = ReplicatedStorage.Common
 
-local UserData = require(Server.Core.UserData)
+local ProfileManager = require(Server.Core.ProfileManager)
 local Log = require(Common.Core.Log)
 
 local function playerAdded(player: Player)
-	UserData.increment(player, { "joinCount" }, 1)
+	ProfileManager.increment(player, { "joinCount" }, 1)
 end
 
 local function Start()
