@@ -1,7 +1,6 @@
 --[[ REPLICA CONNECTOR
 	Centralized client replica handler.
 ]]
-local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Common = ReplicatedStorage.Common
