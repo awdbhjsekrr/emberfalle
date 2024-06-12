@@ -2,8 +2,9 @@ local NewCharacter = {
 	inventory = {},
 	bank = {},
 	class = "None",
-	experience = 0,
-	skills = {
+	classExperience = 0,
+	unlockedAbilities = {},
+	skillExperience = {
 		fishing = 0,
 		cooking = 0,
 		woodcutting = 0,
@@ -12,11 +13,6 @@ local NewCharacter = {
 		alchemy = 0,
 		mining = 0,
 		blacksmithing = 0,
-	},
-	position = {
-		x = 0,
-		y = 0,
-		z = 0,
 	},
 	appearance = {},
 	equipment = {
@@ -42,6 +38,11 @@ local NewCharacter = {
 		back = false,
 	},
 	zone = "spawn",
+	position = {
+		x = 0,
+		y = 0,
+		z = 0,
+	},
 }
 
 return NewCharacter

@@ -11,12 +11,14 @@ local Log = require(Common.Core.Log)
 
 local config = {
 	profileTemplate = {
-		analytics = {
-			timePlayed = 0,
+		account = {
+			analytics = {
+				timePlayed = 0,
+			},
+			trackers = {},
+			achievements = {},
 		},
-		trackers = {},
-		achievements = {},
-		character = false,
+		characters = {},
 	},
 	datastore = "aaaaaaaaaaaaaaaaaaaaaaaaaaaab",
 }
