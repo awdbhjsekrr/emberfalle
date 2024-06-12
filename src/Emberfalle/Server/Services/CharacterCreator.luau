@@ -1,0 +1,3 @@
+local CharacterCreator = {}
+
+return CharacterCreator

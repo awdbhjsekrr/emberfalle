@@ -11,10 +11,14 @@ local Log = require(Common.Core.Log)
 local ReplicaConnector = require(Client.Core.ReplicaConnector)
 local UIController = require(Controllers.UIController)
 
-local function Start()
-	Log.debug("Hello world, from client!")
+local function init()
 	ReplicaConnector.Start()
 	UIController.Start()
+end
+
+local function Start()
+	Log.debug("Hello world, from client!")
+	init()
 end
 
 Start()

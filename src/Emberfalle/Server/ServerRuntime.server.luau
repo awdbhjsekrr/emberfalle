@@ -10,7 +10,11 @@ local ProfileManager = require(Server.Core.ProfileManager)
 local Log = require(Common.Core.Log)
 
 local function playerAdded(player: Player)
-	ProfileManager.increment(player, { "joinCount" }, 1)
+	Log.debug(`New player joining: {player}`)
+	local profile = ProfileManager.get(player)
+	if not profile.character then
+		Log.debug(`{player} is a new player!`)
+	end
 end
 
 local function Start()

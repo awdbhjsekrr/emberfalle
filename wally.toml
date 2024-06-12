@@ -10,6 +10,7 @@ react-roblox = "jsdotlua/react-roblox@17.1.0"
 react-spring = "chriscerie/react-spring@2.0.0"
 replicacontroller = "etheroit/replicacontroller@1.0.0"
 table-util = "sleitnick/table-util@1.2.1"
+red = "red-blox/red@2.3.2"
 
 [server-dependencies]
 replicaservice = "brittonfischer/replicaservice@0.1.0"

@@ -1,0 +1,47 @@
+local NewCharacter = {
+	inventory = {},
+	bank = {},
+	class = "None",
+	experience = 0,
+	skills = {
+		fishing = 0,
+		cooking = 0,
+		woodcutting = 0,
+		crafting = 0,
+		gathering = 0,
+		alchemy = 0,
+		mining = 0,
+		blacksmithing = 0,
+	},
+	position = {
+		x = 0,
+		y = 0,
+		z = 0,
+	},
+	appearance = {},
+	equipment = {
+		head = false,
+		torso = false,
+		legs = false,
+		hands = false,
+		feet = false,
+		ring1 = false,
+		ring2 = false,
+		neck = false,
+		back = false,
+	},
+	cosmeticEquipment = {
+		head = false,
+		torso = false,
+		legs = false,
+		hands = false,
+		feet = false,
+		ring1 = false,
+		ring2 = false,
+		neck = false,
+		back = false,
+	},
+	zone = "spawn",
+}
+
+return NewCharacter

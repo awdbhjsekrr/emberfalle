@@ -11,7 +11,12 @@ local Log = require(Common.Core.Log)
 
 local config = {
 	profileTemplate = {
-		joinCount = 0,
+		analytics = {
+			timePlayed = 0,
+		},
+		trackers = {},
+		achievements = {},
+		character = false,
 	},
 	datastore = "aaaaaaaaaaaaaaaaaaaaaaaaaaaab",
 }
@@ -77,7 +82,7 @@ local function waitForDataReady(player: Player)
 	end
 end
 
-local function get(player: Player, path: { [number]: any }?): unknown
+local function get(player: Player, path: { [number]: any }?): any
 	waitForDataReady(player)
 	local userId = player.UserId
 	local profile = profileCache[userId]
