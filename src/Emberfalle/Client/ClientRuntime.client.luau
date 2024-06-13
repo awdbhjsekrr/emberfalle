@@ -19,10 +19,17 @@ local function init()
 	UIController.Start()
 end
 
+local function newPlayerCheck()
+	local profile = ReplicaConnector.getProfile(localPlayer)
+	if #profile.Data.characters <= 0 then
+		Log.debug(`{localPlayer} has no characters!`)
+	end
+end
+
 local function Start()
 	Log.debug("Hello world, from client!")
 	init()
-	local profile = ReplicaConnector.getProfile(localPlayer)
+	newPlayerCheck()
 end
 
 Start()

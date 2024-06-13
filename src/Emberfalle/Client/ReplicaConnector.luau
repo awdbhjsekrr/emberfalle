@@ -50,7 +50,7 @@ local function getReplicaOfClassByTag(className: string, tagName: string, tagVal
 	return
 end
 
-local function getProfile(player: Player)
+local function getProfile(player: Player): any
 	return getReplicaOfClassByTag("PlayerProfile", "Player", player)
 end
 

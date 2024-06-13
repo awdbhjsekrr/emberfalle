@@ -14,6 +14,7 @@ local config = {
 		account = {
 			analytics = {
 				timePlayed = 0,
+				charactersCreated = 0,
 			},
 			trackers = {},
 			achievements = {},
