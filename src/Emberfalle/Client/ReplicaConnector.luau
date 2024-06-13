@@ -6,7 +6,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Common = ReplicatedStorage.Common
 local Packages = ReplicatedStorage.Packages
 
-local Log = require(Common.Core.Log)
+local Log = require(Common.Log)
 local ReplicaController = require(Packages.replicacontroller)
 
 local REQUEST_TIMEOUT = 10
@@ -33,7 +33,7 @@ local function waitForReplicasOfClass(className: string): {}?
 	return replicas[className]
 end
 
-local function getReplicaOfClassByTag(className: string, tagName: string, tagValue: any)
+local function getReplicaOfClassByTag(className: string, tagName: string, tagValue: any): {}?
 	local replicasOfClass = waitForReplicasOfClass(className)
 	if not replicasOfClass then
 		return

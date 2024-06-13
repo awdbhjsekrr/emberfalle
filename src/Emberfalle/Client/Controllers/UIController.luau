@@ -8,7 +8,7 @@ local ClientRuntime = script.Parent.Parent
 local React = require(Packages.react)
 local ReactRoblox = require(Packages["react-roblox"])
 
-local Log = require(Common.Core.Log)
+local Log = require(Common.Log)
 
 local UIRoot = require(ClientRuntime.UI.UIRoot)
 

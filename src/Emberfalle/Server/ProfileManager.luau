@@ -7,7 +7,7 @@ local Common = ReplicatedStorage:WaitForChild("Common")
 
 local ProfileService = require(ServerPackages.profileservice)
 local ReplicaService = require(ServerPackages.replicaservice)
-local Log = require(Common.Core.Log)
+local Log = require(Common.Log)
 
 local config = {
 	profileTemplate = {

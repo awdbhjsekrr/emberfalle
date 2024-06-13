@@ -6,14 +6,16 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Server = script.Parent
 local Common = ReplicatedStorage.Common
 
-local ProfileManager = require(Server.Core.ProfileManager)
-local Log = require(Common.Core.Log)
+local ProfileManager = require(Server.ProfileManager)
+local Log = require(Common.Log)
 
 local function playerAdded(player: Player)
 	Log.debug(`New player joining: {player}`)
 	local profile = ProfileManager.get(player)
 	if not profile.character then
 		Log.debug(`{player} is a new player!`)
+	else
+		Log.debug(`{player} is a returning player!`)
 	end
 end
 

@@ -1,18 +1,16 @@
 local NewCharacter = {
 	inventory = {},
 	bank = {},
-	class = "None",
+	class = "warrior",
 	classExperience = 0,
 	unlockedAbilities = {},
 	skillExperience = {
 		fishing = 0,
 		cooking = 0,
-		woodcutting = 0,
-		crafting = 0,
-		gathering = 0,
+		logging = 0,
+		fletching = 0,
+		herbalism = 0,
 		alchemy = 0,
-		mining = 0,
-		blacksmithing = 0,
 	},
 	appearance = {},
 	equipment = {

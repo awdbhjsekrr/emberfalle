@@ -1,3 +1,0 @@
-local CharacterCreator = {}
-
-return CharacterCreator
