@@ -7,27 +7,27 @@ local ClientRuntime = script.Parent.Parent
 
 local React = require(Packages.react)
 local ReactRoblox = require(Packages["react-roblox"])
-
 local Log = require(Common.Log)
-
 local UIRoot = require(ClientRuntime.UI.UIRoot)
 
 local e = React.createElement
 
+local localPlayer = Players.LocalPlayer
+local playerGui = localPlayer.PlayerGui
+
 local UIController = {}
 
+local function myTestFrame()
+	return e("TextLabel", {
+		key = "Text",
+	}, {})
+end
+
 local function Start()
-	local container = Players.LocalPlayer:FindFirstChildOfClass("PlayerGui")
-
-	-- Note: `createRoot` takes control of its container and will destroy any
-	--  existing children. To work around this, we use a folder as the container
-	--  and portal the UI to where we actually want it.
-	--
-	--  To be honest, I have no idea why React behaves this way.
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
-	root:render(ReactRoblox.createPortal(e(UIRoot), container))
-
-	Log.debug("Initialized UI under", container:GetFullName())
+	root:render(ReactRoblox.createPortal(e(UIRoot), playerGui))
+	Log.debug("Initialized UI under", playerGui:GetFullName())
+	root:render(ReactRoblox.createPortal(e(myTestFrame), playerGui))
 end
 
 UIController.Start = Start

@@ -21,8 +21,8 @@ end
 
 local function newPlayerCheck()
 	local profile = ReplicaConnector.getProfile(localPlayer)
-	if #profile.Data.characters <= 0 then
-		Log.debug(`{localPlayer} has no characters!`)
+	if profile.Data.account.analytics.charactersCreated <= 0 then
+		Log.debug(`{localPlayer} is a new player!`)
 	end
 end
 
