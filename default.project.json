@@ -10,17 +10,11 @@
         "$path": "Packages"
       },
       "Common": {
-        "Core": {
-          "$path": "src/Core/Common"
-        },
         "$path": "src/Emberfalle/Common"
       }
     },
     "ServerScriptService": {
       "Server": {
-        "Core": {
-          "$path": "src/Core/Server"
-        },
         "$path": "src/Emberfalle/Server"
       },
       "ServerPackages": {
@@ -30,9 +24,6 @@
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "Client": {
-          "Core": {
-            "$path": "src/Core/Client"
-          },
           "$path": "src/Emberfalle/Client"
         }
       }
