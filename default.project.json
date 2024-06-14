@@ -5,27 +5,25 @@
   ],
   "tree": {
     "$className": "DataModel",
+    "ReplicatedFirst": {
+      "Source": {
+        "$path": "src/Emberfalle/ReplicatedFirst"
+      }
+    },
     "ReplicatedStorage": {
       "Packages": {
         "$path": "Packages"
       },
-      "Common": {
-        "$path": "src/Emberfalle/Common"
+      "Source": {
+        "$path": "src/Emberfalle/ReplicatedStorage"
       }
     },
     "ServerScriptService": {
-      "Server": {
-        "$path": "src/Emberfalle/Server"
+      "Source": {
+        "$path": "src/Emberfalle/ServerScriptService"
       },
       "ServerPackages": {
         "$path": "ServerPackages"
-      }
-    },
-    "StarterPlayer": {
-      "StarterPlayerScripts": {
-        "Client": {
-          "$path": "src/Emberfalle/Client"
-        }
       }
     }
   }
