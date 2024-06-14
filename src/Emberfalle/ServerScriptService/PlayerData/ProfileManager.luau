@@ -1,7 +1,7 @@
 --!strict
 
 --[[
-	Interface for interacting with a player's profile data.
+	Interface for interacting with a player's ProfileService profile.
 ]]
 
 local Players = game:GetService("Players")

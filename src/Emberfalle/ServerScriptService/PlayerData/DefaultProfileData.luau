@@ -1,10 +1,10 @@
 --!strict
 
 --[[
-    Default profile for new players.
+	Default profile for new players.
 ]]
 
-local ProfileTemplate = {
+local DefaultProfileData = {
 	account = {
 		analytics = {
 			timePlayed = 0,
@@ -16,4 +16,4 @@ local ProfileTemplate = {
 	characters = {},
 }
 
-return ProfileTemplate
+return DefaultProfileData

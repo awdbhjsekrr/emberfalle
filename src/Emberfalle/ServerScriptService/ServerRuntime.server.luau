@@ -1,3 +1,9 @@
+--!strict
+
+--[[
+	Server side entry point for all code in the experience.
+]]
+
 _G.__DEV__ = game:GetService("RunService"):IsStudio()
 
 local Players = game:GetService("Players")
