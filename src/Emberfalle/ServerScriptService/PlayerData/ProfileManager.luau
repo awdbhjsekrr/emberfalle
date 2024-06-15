@@ -85,7 +85,7 @@ function ProfileManager._waitForDataReady(player: Player)
 	end
 end
 
-function ProfileManager.get(player: Player, path: { [number]: any }?): { any } | boolean | string | number | nil
+function ProfileManager.get(player: Player, path: { [number]: any }?)
 	ProfileManager._waitForDataReady(player)
 	local userId = player.UserId
 	local profile = ProfileManager._profileCache[userId]
