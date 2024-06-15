@@ -11,6 +11,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local ProfileService = require(ServerScriptService.ServerPackages.profileservice)
 local ReplicaService = require(ServerScriptService.ServerPackages.replicaservice)
 
+local REQUEST_TIMEOUT = 10
 local DATA_STORE_NAME = "aaaaaaaaaaaaab"
 local DEFAULT_PROFILE_DATA = require(ServerScriptService.Source.PlayerData.DefaultProfileData)
 
@@ -74,11 +75,16 @@ end
 
 function ProfileManager._waitForDataReady(player: Player)
 	local userId = player.UserId
+	local startedTick = tick()
 	while true do
-		if not player then
+		if not player or (tick() - startedTick) > REQUEST_TIMEOUT then
+			error("Player doesn't exist or timed out waiting for data ready")
 			return
 		end
-		if ProfileManager._profileCache[userId] ~= nil and ProfileManager._replicaCache[userId] ~= nil then
+		local profile = ProfileManager._profileCache[userId]
+		local replica = ProfileManager._replicaCache[userId]
+		if profile ~= nil and replica and replica:IsActive() then
+			error(true)
 			return
 		end
 		task.wait()
@@ -89,19 +95,15 @@ function ProfileManager.get(player: Player, path: { [number]: any }?)
 	ProfileManager._waitForDataReady(player)
 	local userId = player.UserId
 	local profile = ProfileManager._profileCache[userId]
-	local replica = ProfileManager._replicaCache[userId]
-	if profile ~= nil and replica ~= nil and replica:IsActive() == true then
-		if path ~= nil then
-			local pointer = profile.Data
-			for i = 1, #path - 1 do
-				pointer = pointer[path[i]]
-			end
-			return pointer[path[#path]]
-		else
-			return profile.Data
+	if path ~= nil then
+		local pointer = profile.Data
+		for i = 1, #path - 1 do
+			pointer = pointer[path[i]]
 		end
+		return pointer[path[#path]]
+	else
+		return profile.Data
 	end
-	return
 end
 
 function ProfileManager.set(player: Player, path: { [number]: any }, value: any)

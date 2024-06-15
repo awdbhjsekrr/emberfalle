@@ -18,6 +18,7 @@ ProfileManager.start()
 
 local function onPlayerAdded(newPlayer: Player)
 	local profile = ProfileManager.get(newPlayer)
+	print("got", profile)
 end
 
 safePlayerAdded(function(newPlayer: Player)
