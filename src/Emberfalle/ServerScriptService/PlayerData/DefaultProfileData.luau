@@ -11,13 +11,13 @@ local DefaultCharacterData = require(ReplicatedStorage.Source.SharedConstants.De
 local DefaultProfileData = {
 	account = {
 		analytics = {
-			timePlayed = 0,
+			totalTimePlayed = 0,
 			numCharactersCreated = 0,
 		},
 		trackers = {},
 		achievements = {} :: { [string]: number },
 	},
-	characters = {} :: { DefaultCharacterData.CharacterData },
+	characters = {},
 }
 
 return DefaultProfileData

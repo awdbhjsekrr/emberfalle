@@ -4,34 +4,18 @@
     Default template for a newly created character.
 ]]
 
-type Classes = "warrior" | "ranger" | "cleric" | "rogue" | "mage" | "warlock"
-type Race = "human" | "undead" | "orc"
+type ClassType = "warrior" | "archer" | "mage"
+type RaceType = "human"
 
-export type CharacterData = {
-	id: number,
-	analytics: {
-		timePlayed: number,
+local DefaultCharacterData = {
+	id = 0,
+	analytics = {
+		totalTimePlayed = 0,
 	},
-	trackers: {},
-	class: Classes,
-	subclass: string | false,
-	inventory: {},
-	storage: {},
-	maxStorage: number,
-	talents: {},
-	talentPoints: number,
-	experience: number,
-	skillExperience: {
-		fishing: number,
-		cooking: number,
-		herbalism: number,
-		alchemy: number,
-	},
-	appearance: {
-		race: Race,
-	},
+	inventory = {},
+	storage = {},
+	class = "warrior" :: ClassType,
+	race = "human" :: RaceType,
 }
 
-local NewCharacterData: CharacterData = {}
-
-return NewCharacterData
+return DefaultCharacterData
