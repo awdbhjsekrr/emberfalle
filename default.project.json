@@ -6,24 +6,31 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedFirst": {
+      "$className": "ReplicatedFirst",
       "Source": {
         "$path": "src/Emberfalle/ReplicatedFirst"
       }
     },
     "ReplicatedStorage": {
-      "Packages": {
-        "$path": "Packages"
-      },
+      "$className": "ReplicatedStorage",
       "Source": {
-        "$path": "src/Emberfalle/ReplicatedStorage"
+        "$path": "src/Emberfalle/ReplicatedStorage",
+        "Packages": {
+          "$path": "Packages"
+        }
       }
     },
     "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$path": "src/Emberfalle/ServerScriptService"
+    },
+    "ServerStorage": {
+      "$className": "ServerStorage",
       "Source": {
-        "$path": "src/Emberfalle/ServerScriptService"
-      },
-      "ServerPackages": {
-        "$path": "ServerPackages"
+        "$path": "src/Emberfalle/ServerStorage",
+        "ServerPackages": {
+          "$path": "ServerPackages"
+        }
       }
     }
   }

@@ -6,14 +6,14 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
+local ServerStorage = game:GetService("ServerStorage")
 
-local ProfileService = require(ServerScriptService.ServerPackages.profileservice)
-local ReplicaService = require(ServerScriptService.ServerPackages.replicaservice)
+local ProfileService = require(ServerStorage.Source.ServerPackages.profileservice)
+local ReplicaService = require(ServerStorage.Source.ServerPackages.replicaservice)
 
 local REQUEST_TIMEOUT = 10
 local DATA_STORE_NAME = "aaaaaaaaaaaaab"
-local DEFAULT_PROFILE_DATA = require(ServerScriptService.Source.PlayerData.DefaultProfileData)
+local DEFAULT_PROFILE_DATA = require(ServerStorage.Source.PlayerData.DefaultProfileData)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 

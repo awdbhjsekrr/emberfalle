@@ -12,7 +12,7 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 
 local waitForGameLoaded = require(ReplicatedFirst.Source.Utility.waitForGameLoaded)
 
-local localPlayer = Players.LocalPlayer :: Player
+local localPlayer = Players.LocalPlayer
 
 local function preGameLoadTasksAsync() end
 

@@ -7,10 +7,10 @@
 _G.__DEV__ = game:GetService("RunService"):IsStudio()
 
 local Players = game:GetService("Players")
-local ServerScriptService = game:GetService("ServerScriptService")
+local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local ProfileManager = require(ServerScriptService.Source.PlayerData.ProfileManager)
+local ProfileManager = require(ServerStorage.Source.PlayerData.ProfileManager)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 

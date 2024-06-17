@@ -6,7 +6,7 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local ReplicaController = require(ReplicatedStorage.Packages.replicacontroller)
+local ReplicaController = require(ReplicatedStorage.Source.Packages.replicacontroller)
 
 local REQUEST_TIMEOUT = 10
 local CLASS_LISTENERS = {
