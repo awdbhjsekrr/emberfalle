@@ -7,9 +7,7 @@
     "$className": "DataModel",
     "ReplicatedFirst": {
       "$className": "ReplicatedFirst",
-      "Source": {
-        "$path": "src/Emberfalle/ReplicatedFirst"
-      }
+      "$path": "src/Emberfalle/ReplicatedFirst"
     },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",

@@ -8,6 +8,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
+local DefaultProfileData = require(script.Parent.DefaultProfileData)
 local ProfileService = require(ServerStorage.Source.ServerPackages.profileservice)
 local ReplicaService = require(ServerStorage.Source.ServerPackages.replicaservice)
 
@@ -73,29 +74,36 @@ function ProfileManager._listenForPlayers()
 	Players.PlayerRemoving:Connect(ProfileManager._onplayerRemovingAsync)
 end
 
-function ProfileManager._waitForDataReady(player: Player)
+function ProfileManager._isDataReady(player: Player): boolean
 	local userId = player.UserId
+	local profile = ProfileManager._profileCache[userId]
+	local replica = ProfileManager._replicaCache[userId]
+	if profile and replica and replica:IsActive() then
+		return true
+	end
+	return false
+end
+
+function ProfileManager._waitForDataReady(player: Player)
 	local startedTick = tick()
 	while true do
 		if not player or (tick() - startedTick) > REQUEST_TIMEOUT then
-			error("Player doesn't exist or timed out waiting for data ready")
+			warn("Player doesn't exist or timed out waiting for data ready")
 			return
 		end
-		local profile = ProfileManager._profileCache[userId]
-		local replica = ProfileManager._replicaCache[userId]
-		if profile ~= nil and replica and replica:IsActive() then
-			error(true)
+		if ProfileManager._isDataReady(player) then
 			return
 		end
 		task.wait()
 	end
 end
 
-function ProfileManager.get(player: Player, path: { [number]: any }?)
+function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | typeof(DefaultProfileData)
 	ProfileManager._waitForDataReady(player)
+	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
 	local profile = ProfileManager._profileCache[userId]
-	if path ~= nil then
+	if typeof(path) == "table" then
 		local pointer = profile.Data
 		for i = 1, #path - 1 do
 			pointer = pointer[path[i]]
@@ -108,17 +116,18 @@ end
 
 function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 	ProfileManager._waitForDataReady(player)
+	if not ProfileManager._isDataReady(player) then
+		return
+	end
 	local userId = player.UserId
 	local profile = ProfileManager._profileCache[userId]
 	local replica = ProfileManager._replicaCache[userId]
-	if profile ~= nil and replica ~= nil and replica:IsActive() == true then
-		local pointer = profile.Data
-		for i = 1, #path - 1 do
-			pointer = pointer[path[i]]
-		end
-		pointer[path[#path]] = value
-		replica:SetValue(path, value)
+	local pointer = profile.Data
+	for i = 1, #path - 1 do
+		pointer = pointer[path[i]]
 	end
+	pointer[path[#path]] = value
+	replica:SetValue(path, value)
 end
 
 function ProfileManager.increment(player: Player, path: { [number]: any }, value: number)

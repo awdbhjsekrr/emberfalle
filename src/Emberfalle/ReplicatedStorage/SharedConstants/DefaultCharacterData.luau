@@ -4,32 +4,58 @@
 	Default template for a newly created character.
 ]]
 
-type ClassType = "warrior" | "archer" | "mage"
-type RaceType = "human"
+type CharacterClass = "warrior" | "archer" | "mage"
+type CharacterRace = "human"
 
-local DefaultCharacterData = {
+export type ClassType = {
+	id: number,
+	analytics: {
+		totalTimePlayed: number,
+	},
+	inventory: {},
+	storage: {},
+	class: CharacterClass,
+	race: CharacterRace,
+	specialization: string | false,
+	talents: {},
+	talentPoints: number,
+	appearance: {},
+	equipment: {
+		head: string | false,
+		shoulders: string | false,
+		torso: string | false,
+		legs: string | false,
+		feet: string | false,
+		hands: string | false,
+		back: string | false,
+		neck: string | false,
+		ring: string | false,
+	},
+}
+
+local DefaultCharacterData: ClassType = {
 	id = 0,
 	analytics = {
 		totalTimePlayed = 0,
 	},
 	inventory = {},
 	storage = {},
-	class = "warrior" :: ClassType,
-	race = "human" :: RaceType,
-	specialization = false :: string | false,
+	class = "warrior",
+	race = "human",
+	specialization = false,
 	talents = {},
 	talentPoints = 0,
 	appearance = {},
 	equipment = {
-		head = false :: string | false,
-		shoulders = false :: string | false,
-		torso = false :: string | false,
-		legs = false :: string | false,
-		feet = false :: string | false,
-		hands = false :: string | false,
-		back = false :: string | false,
-		neck = false :: string | false,
-		ring = false :: string | false,
+		head = false,
+		shoulders = false,
+		torso = false,
+		legs = false,
+		feet = false,
+		hands = false,
+		back = false,
+		neck = false,
+		ring = false,
 	},
 }
 
