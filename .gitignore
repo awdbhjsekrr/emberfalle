@@ -8,3 +8,6 @@
 # Wally dependencies
 /Packages
 /ServerPackages
+
+# Sourcemap
+/sourcemap.json
