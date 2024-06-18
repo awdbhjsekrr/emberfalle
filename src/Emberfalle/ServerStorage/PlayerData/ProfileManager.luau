@@ -47,9 +47,8 @@ function ProfileManager._onPlayerAddedAsync(player: Player)
 				Data = profile.Data,
 				Replication = "All",
 				Tags = { Player = player },
-				Parent = nil,
 				WriteLib = nil,
-			} :: any) :: any
+			} :: any)
 		else
 			profile:Release()
 		end
