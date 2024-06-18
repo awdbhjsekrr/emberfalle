@@ -8,7 +8,6 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
-local DefaultProfileData = require(script.Parent.DefaultProfileData)
 local ProfileService = require(ServerStorage.Source.ServerPackages.profileservice)
 local ReplicaService = require(ServerStorage.Source.ServerPackages.replicaservice)
 
@@ -98,7 +97,7 @@ function ProfileManager._waitForDataReady(player: Player)
 	end
 end
 
-function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | typeof(DefaultProfileData)
+function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DEFAULT_PROFILE_DATA.ClassType
 	ProfileManager._waitForDataReady(player)
 	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
