@@ -8,18 +8,47 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Signal = require(ReplicatedStorage.Source.Packages.signal)
 
-type Connection = RBXScriptConnection | Signal.Connection
-
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		_connections: {}
-	}
-
-))
+type Connection = RBXScriptConnection & Signal.Connection
 
 local Maid = {}
 Maid.__index = Maid
 
-function Maid.new()
+export type ClassType = typeof(setmetatable(
+	{} :: {
+		_connections: { Connection },
+	},
+	Maid
+))
+
+function Maid.new(): ClassType
+	local self = {
+		_connections = {},
+	}
+	setmetatable(self, Maid)
+
+	return self
+end
+
+function Maid.add(self: ClassType, ...: Connection)
+	for _, connection in { ... } do
+		assert(not table.find(self._connections, connection), "Connection already added.")
+		table.insert(self._connections, connection)
+	end
+end
+
+function Maid.remove(self: ClassType, ...: Connection)
+	for _, connection in { ... } do
+		local index = table.find(self._connections, connection)
+		if index then
+			table.remove(self._connections, index)
+		end
+	end
+end
+
+function Maid.disconnect(self: ClassType)
+	for _, connection in self._connections do
+		connection:Disconnect()
+	end
+end
 
 return Maid
