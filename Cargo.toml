@@ -1,0 +1,7 @@
+[package]
+name = "emberfalle"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wally-package-types = "=1.3.1"

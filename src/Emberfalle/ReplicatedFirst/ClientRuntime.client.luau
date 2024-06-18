@@ -14,7 +14,9 @@ local waitForGameLoaded = require(ReplicatedFirst.Source.Utility.waitForGameLoad
 
 local localPlayer = Players.LocalPlayer
 
-local function preGameLoadTasksAsync() end
+local function preGameLoadTasksAsync()
+	local LoadingScreen = require(ReplicatedFirst.Source.LoadingScreen)
+end
 
 local function postGameLoadTasksAsync() end
 

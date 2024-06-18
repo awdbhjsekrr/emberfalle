@@ -11,3 +11,7 @@
 
 # Sourcemap
 /sourcemap.json
+
+# Added by cargo
+
+/target
