@@ -1,0 +1,3 @@
+{"version":"1.2.8","db_type":"idb","start_time":"2024-06-18T23:17:24.459Z","db_info":{"doc_count":1,"update_seq":2,"idb_attachment_format":"binary","db_name":"project-data","auto_compaction":false,"adapter":"idb"}}
+{"docs":[{"projectName":"EmberfalleArchives","_id":"projectSetup","_rev":"2-97696a2b2cd757fefb9589066c4c2e5f","_revisions":{"start":2,"ids":["97696a2b2cd757fefb9589066c4c2e5f","96dff5fb644f0419391ff4c256e63a32"]}}]}
+{"seq":2}
