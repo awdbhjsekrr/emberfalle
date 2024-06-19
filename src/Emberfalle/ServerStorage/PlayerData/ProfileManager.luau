@@ -48,7 +48,7 @@ function ProfileManager._onPlayerAddedAsync(player: Player)
 				Replication = "All",
 				Tags = { Player = player },
 				WriteLib = nil,
-			} :: any)
+			} :: any) :: any
 		else
 			profile:Release()
 		end
@@ -56,7 +56,6 @@ function ProfileManager._onPlayerAddedAsync(player: Player)
 		player:Kick("Failed to load data! Try rejoining.")
 	end
 end
-
 function ProfileManager._onplayerRemovingAsync(player: Player)
 	local userId = player.UserId
 	local cachedProfile = ProfileManager._profileCache[userId]

@@ -30,6 +30,7 @@ export type ClassType = {
 	analytics: {
 		totalTimePlayed: number,
 	},
+	gold: number,
 	inventory: {},
 	storage: {},
 	class: CharacterClass,
@@ -48,6 +49,7 @@ local DefaultCharacterData: ClassType = {
 	analytics = {
 		totalTimePlayed = 0,
 	},
+	gold = 0,
 	inventory = {},
 	storage = {},
 	class = "warrior",

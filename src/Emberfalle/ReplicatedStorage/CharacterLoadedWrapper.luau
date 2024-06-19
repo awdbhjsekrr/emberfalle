@@ -31,4 +31,31 @@ function CharacterLoadedWrapper.new(player: Player)
 	return self
 end
 
+function CharacterLoadedWrapper._listenForDeath(self: ClassType, character: Model)
+	local humanoid = character:FindFirstChildOfClass("Humanoid") :: Humanoid
+
+	local alreadyDead = false
+	local diedConnection, removedConnection
+
+	local function onDied()
+		if alreadyDead then
+			return
+		end
+		alreadyDead = true
+		diedConnection:Disconnect()
+		removedConnection:Disconnect()
+		self.died:Fire(character)
+	end
+
+	diedConnection = humanoid.Died:Connect(onDied)
+
+	removedConnection = character.AncestryChanged:Connect(function()
+		if not character:IsDescendantOf(Workspace) then
+			onDied()
+		end
+	end)
+
+	self._connections:add(diedConnection, removedConnection)
+end
+
 return CharacterLoadedWrapper
