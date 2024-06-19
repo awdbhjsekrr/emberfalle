@@ -3,3 +3,4 @@ exclude = ["Packages", "ServerPackages"]
 
 [lints]
 global_usage = "allow"
+if_same_then_else = "allow"

@@ -3,7 +3,7 @@ local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Signal = require(ReplicatedStorage.Source.Packages.signal)
-local Maid = require(ReplicatedStorage.Source.Maid)
+local ConnectionMaid = require(ReplicatedStorage.Source.ConnectionMaid)
 
 local CharacterLoadedWrapper = {}
 CharacterLoadedWrapper.__index = CharacterLoadedWrapper
@@ -14,7 +14,7 @@ export type ClassType = typeof(setmetatable(
 		died: Signal.Signal<nil>,
 		_player: Player,
 		_destroyed: boolean,
-		_connections: Maid.ClassType,
+		_connections: ConnectionMaid.ClassType,
 	},
 	CharacterLoadedWrapper
 ))
@@ -25,7 +25,7 @@ function CharacterLoadedWrapper.new(player: Player)
 		died = Signal.new(),
 		_player = player,
 		_destroyed = false,
-		_maid = Maid.new(),
+		_maid = ConnectionMaid.new(),
 	}
 	setmetatable(self, CharacterLoadedWrapper)
 	return self
