@@ -1,4 +1,5 @@
 --!strict
+
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -42,9 +43,10 @@ function CharacterLoadedWrapper.new(player: Player)
 		died = Signal.new(),
 		_player = player,
 		_destroyed = false,
-		_maid = ConnectionMaid.new(),
+		_connections = ConnectionMaid.new(),
 	}
 	setmetatable(self, CharacterLoadedWrapper)
+	self._listenForCharacterAdded(self)
 	return self
 end
 
