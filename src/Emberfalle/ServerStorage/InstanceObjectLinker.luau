@@ -19,4 +19,15 @@ function InstanceObjectLinker.getLinkedObject(instance: Instance, objectName: st
 	return if instanceObjects then instanceObjects[objectName] else nil
 end
 
+function InstanceObjectLinker.removeLinkedObject(instance: Instance, objectIdentifier: string)
+	local instanceObjects = InstanceObjectLinker._instances[instance]
+	if instanceObjects then
+		instanceObjects[objectIdentifier] = nil
+	end
+end
+
+function InstanceObjectLinker.unlinkAll(instance: Instance)
+	InstanceObjectLinker._instances[instance] = nil
+end
+
 return InstanceObjectLinker
