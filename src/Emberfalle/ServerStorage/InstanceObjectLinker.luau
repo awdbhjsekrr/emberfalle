@@ -1,7 +1,7 @@
 --!strict
 
 --[[
-    Links objects to an instance and provides a getter function.
+	Links objects to an instance and provides a getter function.
 ]]
 
 local InstanceObjectLinker = {}

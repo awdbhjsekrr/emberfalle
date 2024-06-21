@@ -1,12 +1,15 @@
 --!strict
 
+--[[
+	Handles respawning of the player character on death.
+]]
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 local Workspace = game:GetService("Workspace")
 
 local InstanceObjectLinker = require(ServerStorage.Source.InstanceObjectLinker)
-local CharacterLoadedWrapper = require(ReplicatedStorage.Source.CharacterLoadedWrapper)
 local Signal = require(ReplicatedStorage.Source.Packages.signal)
 
 local CharacterContainer = Instance.new("Folder")
