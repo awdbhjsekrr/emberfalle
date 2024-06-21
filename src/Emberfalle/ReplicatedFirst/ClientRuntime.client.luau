@@ -18,7 +18,10 @@ local function preGameLoadTasksAsync()
 	local LoadingScreen = require(ReplicatedFirst.Source.LoadingScreen)
 end
 
-local function postGameLoadTasksAsync() end
+local function postGameLoadTasksAsync()
+	local ReplicaConnector = require(ReplicatedStorage.Source.ReplicaConnector)
+	ReplicaConnector.start()
+end
 
 preGameLoadTasksAsync()
 waitForGameLoaded()
