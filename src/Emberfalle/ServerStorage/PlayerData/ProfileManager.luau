@@ -56,6 +56,7 @@ function ProfileManager._onPlayerAddedAsync(player: Player)
 		player:Kick("Failed to load data! Try rejoining.")
 	end
 end
+
 function ProfileManager._onplayerRemovingAsync(player: Player)
 	local userId = player.UserId
 	local cachedProfile = ProfileManager._profileCache[userId]
@@ -113,9 +114,7 @@ end
 
 function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 	ProfileManager._waitForDataReady(player)
-	if not ProfileManager._isDataReady(player) then
-		return
-	end
+	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
 	local profile = ProfileManager._profileCache[userId]
 	local replica = ProfileManager._replicaCache[userId]
@@ -125,6 +124,21 @@ function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 	end
 	pointer[path[#path]] = value
 	replica:SetValue(path, value)
+end
+
+function ProfileManager.insert(player: Player, path: { [number]: any }, value: any)
+	ProfileManager._waitForDataReady(player)
+	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
+	local userId = player.UserId
+	local profile = ProfileManager._profileCache[userId]
+	local replica = ProfileManager._replicaCache[userId]
+	local pointer = profile.Data
+	for i = 1, #path - 1 do
+		pointer = pointer[path[i]]
+	end
+	assert(typeof(pointer[path][#path]) == "table", `Add cant only be used on tables: {player}, {path}`)
+	table.insert(pointer[path][#path], value)
+	replica:ArraySet(path, value)
 end
 
 function ProfileManager.increment(player: Player, path: { [number]: any }, value: number)
