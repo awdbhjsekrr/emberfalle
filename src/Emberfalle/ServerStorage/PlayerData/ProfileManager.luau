@@ -152,7 +152,7 @@ function ProfileManager.arrayRemove(player: Player, path: { [number]: any }, val
 		pointer = pointer[path[i]]
 	end
 	assert(typeof(pointer[path][#path]) == "table", `Add cant only be used on tables: {player}, {path}`)
-	table.insert(pointer[path][#path], value)
+	table.remove(pointer[path][#path], value)
 	replica:ArrayRemove(path, value)
 end
 
