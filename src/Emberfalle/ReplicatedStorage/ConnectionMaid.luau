@@ -6,9 +6,9 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Signal = require(ReplicatedStorage.Source.Packages.signal)
+local Signal = require(ReplicatedStorage.Source.Signal)
 
-type Connection = RBXScriptConnection | Signal.Connection
+type Connection = RBXScriptConnection & Signal.SignalConnection
 
 local Maid = {}
 Maid.__index = Maid
@@ -47,11 +47,7 @@ end
 
 function Maid.disconnect(self: ClassType)
 	for _, connection in self._connections do
-		if typeof(connection) == "RBXScriptSignal" then
-			connection:Disconnect()
-		else
-			connection:Disconnect()
-		end
+		connection:Disconnect()
 	end
 end
 

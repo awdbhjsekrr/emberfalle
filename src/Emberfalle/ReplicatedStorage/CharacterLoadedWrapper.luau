@@ -3,7 +3,7 @@
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Signal = require(ReplicatedStorage.Source.Packages.signal)
+local Signal = require(ReplicatedStorage.Source.Signal)
 local ConnectionMaid = require(ReplicatedStorage.Source.ConnectionMaid)
 local waitForChildOfClass = require(ReplicatedStorage.Source.Utility.waitForChildOfClass)
 
@@ -12,8 +12,8 @@ CharacterLoadedWrapper.__index = CharacterLoadedWrapper
 
 export type ClassType = typeof(setmetatable(
 	{} :: {
-		loaded: Signal.Signal<nil>,
-		died: Signal.Signal<nil>,
+		loaded: Signal.SignalConnection,
+		died: Signal.SignalConnection,
 		_player: Player,
 		_destroyed: boolean,
 		_connections: ConnectionMaid.ClassType,
@@ -134,8 +134,8 @@ function CharacterLoadedWrapper._listenForDeath(self: ClassType)
 end
 
 function CharacterLoadedWrapper.destroy(self: ClassType)
-	self.loaded:DisconnectAll()
-	self.died:DisconnectAll()
+	self.loaded:Disconnect()
+	self.died:Disconnect()
 	self._destroyed = true
 	self._connections:disconnect()
 end

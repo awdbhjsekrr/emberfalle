@@ -10,15 +10,18 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 
+local LoadingScreen = require(ReplicatedFirst.Source.LoadingScreen)
+
 local waitForGameLoaded = require(ReplicatedFirst.Source.Utility.waitForGameLoaded)
 
 local localPlayer = Players.LocalPlayer
 
 local function preGameLoadTasksAsync()
-	local LoadingScreen = require(ReplicatedFirst.Source.LoadingScreen)
+	LoadingScreen.enable()
 end
 
 local function postGameLoadTasksAsync()
+	LoadingScreen.disable()
 	local ReplicaConnector = require(ReplicatedStorage.Source.ReplicaConnector)
 	ReplicaConnector.start()
 end
