@@ -6,9 +6,9 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Signal = require(ReplicatedStorage.Source.Signal)
+local Signal = require(ReplicatedStorage.Source.Packages.signal)
 
-type Connection = RBXScriptConnection & Signal.SignalConnection
+type Connection = RBXScriptConnection | Signal.Signal<nil>
 
 local Maid = {}
 Maid.__index = Maid
@@ -31,7 +31,7 @@ end
 
 function Maid.add(self: ClassType, ...: Connection)
 	for _, connection in { ... } do
-		assert(not table.find(self._connections, connection), "Connection already added.")
+		assert(not table.find(self._connections, connection), "This connection has already been added")
 		table.insert(self._connections, connection)
 	end
 end
@@ -47,8 +47,13 @@ end
 
 function Maid.disconnect(self: ClassType)
 	for _, connection in self._connections do
-		connection:Disconnect()
+		if typeof(connection) == "RBXScriptConnection" then
+			connection:Disconnect()
+		else
+			connection:DisconnectAll()
+		end
 	end
+	self._connections = {}
 end
 
 return Maid
