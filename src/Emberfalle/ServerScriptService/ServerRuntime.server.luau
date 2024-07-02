@@ -20,7 +20,9 @@ local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded
 ProfileManager.start()
 
 local function onPlayerAdded(newPlayer: Player)
+	ProfileManager.increment(newPlayer, { "account", "analytics", "totalPlacesJoined" }, 1)
 	local profile = ProfileManager.get(newPlayer)
+	print(profile)
 	InstanceObjectLinker.linkObject(newPlayer, "CharacterLoadedWrapper", CharacterLoadedWrapper.new(newPlayer))
 	CharacterSpawner.startRespawnLoop(newPlayer)
 end

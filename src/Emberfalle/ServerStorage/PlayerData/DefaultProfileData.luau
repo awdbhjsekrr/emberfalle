@@ -11,6 +11,7 @@ local DefaultCharacterData = require(ReplicatedStorage.Source.SharedConstants.De
 export type ClassType = {
 	account: {
 		analytics: {
+			totalPlacesJoined: number,
 			totalTimePlayed: number,
 			totalCharactersCreated: number,
 		},
@@ -23,6 +24,7 @@ export type ClassType = {
 local DefaultProfileData: ClassType = {
 	account = {
 		analytics = {
+			totalPlacesJoined = 0,
 			totalTimePlayed = 0,
 			totalCharactersCreated = 0,
 		},

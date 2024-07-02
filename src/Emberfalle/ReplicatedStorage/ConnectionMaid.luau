@@ -25,7 +25,6 @@ function Maid.new(): ClassType
 		_connections = {},
 	}
 	setmetatable(self, Maid)
-
 	return self
 end
 

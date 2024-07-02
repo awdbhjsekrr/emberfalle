@@ -116,13 +116,13 @@ function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 	ProfileManager._waitForDataReady(player)
 	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
-	local profile = ProfileManager._profileCache[userId]
+	--local profile = ProfileManager._profileCache[userId]
 	local replica = ProfileManager._replicaCache[userId]
-	local pointer = profile.Data
+	--[=[local pointer = profile.Data
 	for i = 1, #path - 1 do
 		pointer = pointer[path[i]]
 	end
-	pointer[path[#path]] = value
+	pointer[path[#path]] = value]=]
 	replica:SetValue(path, value)
 end
 
@@ -130,14 +130,14 @@ function ProfileManager.arrayInsert(player: Player, path: { [number]: any }, val
 	ProfileManager._waitForDataReady(player)
 	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
-	local profile = ProfileManager._profileCache[userId]
+	--local profile = ProfileManager._profileCache[userId]
 	local replica = ProfileManager._replicaCache[userId]
-	local pointer = profile.Data
+	--[=[local pointer = profile.Data
 	for i = 1, #path - 1 do
 		pointer = pointer[path[i]]
 	end
 	assert(typeof(pointer[path][#path]) == "table", `Add cant only be used on tables: {player}, {path}`)
-	table.insert(pointer[path][#path], value)
+	table.insert(pointer[path][#path], value)]=]
 	replica:ArraySet(path, value)
 end
 
@@ -145,14 +145,14 @@ function ProfileManager.arrayRemove(player: Player, path: { [number]: any }, val
 	ProfileManager._waitForDataReady(player)
 	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
 	local userId = player.UserId
-	local profile = ProfileManager._profileCache[userId]
+	--local profile = ProfileManager._profileCache[userId]
 	local replica = ProfileManager._replicaCache[userId]
-	local pointer = profile.Data
+	--[=[local pointer = profile.Data
 	for i = 1, #path - 1 do
 		pointer = pointer[path[i]]
 	end
 	assert(typeof(pointer[path][#path]) == "table", `Add cant only be used on tables: {player}, {path}`)
-	table.remove(pointer[path][#path], value)
+	table.remove(pointer[path][#path], value)]=]
 	replica:ArrayRemove(path, value)
 end
 
