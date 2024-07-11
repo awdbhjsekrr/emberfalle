@@ -34,6 +34,36 @@ function Network._waitForServerStarted()
 	end
 end
 
+function Network._getRemoteEvent(remoteEventName: string): RemoteEvent?
+	Network._waitForServerStarted()
+	return script.Events:FindFirstChild(remoteEventName)
+end
+
+function Network._getRemoteFunction(remoteFunctionName: string): RemoteFunction?
+	Network._waitForServerStarted()
+	return script.Functions:FindFirstChild(remoteFunctionName)
+end
+
+function Network.connectEvent(remoteEventName: string, callback: (...any) -> any)
+	local remoteEvent = Network._getRemoteEvent(remoteEventName)
+	assert(remoteEvent, `Cannot find remote event: {remoteEventName}`)
+	if IS_SERVER then
+		remoteEvent.OnServerEvent:Connect(callback)
+	else
+		remoteEvent.OnClientEvent:Connect(callback)
+	end
+end
+
+function Network.bindFunction(remoteFunctionName: string, callback: (...any) -> any)
+	local remoteFunction = Network._getRemoteFunction(remoteFunctionName)
+	assert(remoteFunction, `Cannot find remote function: {remoteFunctionName}`)
+	if IS_SERVER then
+		remoteFunction.OnServerInvoke = callback
+	else
+		remoteFunction.OnClientInvoke = callback
+	end
+end
+
 function Network.fireAllClients(remoteName: string, ...: any)
 	assert(IS_SERVER, "Network.fireAllClients can only be called from server")
 	Network._waitForServerStarted()
