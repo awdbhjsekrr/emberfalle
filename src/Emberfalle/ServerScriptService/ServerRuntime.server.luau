@@ -14,15 +14,16 @@ local InstanceObjectLinker = require(ServerStorage.Source.InstanceObjectLinker)
 local ProfileManager = require(ServerStorage.Source.PlayerData.ProfileManager)
 local CharacterSpawner = require(ServerStorage.Source.CharacterSpawner)
 local CharacterLoadedWrapper = require(ReplicatedStorage.Source.CharacterLoadedWrapper)
+local Network = require(ReplicatedStorage.Source.Network)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 
+Network.startServer()
 ProfileManager.start()
 
 local function onPlayerAdded(newPlayer: Player)
 	ProfileManager.increment(newPlayer, { "account", "analytics", "totalPlacesJoined" }, 1)
 	local profile = ProfileManager.get(newPlayer)
-	print(profile)
 	InstanceObjectLinker.linkObject(newPlayer, "CharacterLoadedWrapper", CharacterLoadedWrapper.new(newPlayer))
 	CharacterSpawner.startRespawnLoop(newPlayer)
 end

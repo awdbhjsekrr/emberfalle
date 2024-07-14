@@ -4,8 +4,12 @@ local RunService = game:GetService("RunService")
 local IS_SERVER = RunService:IsServer()
 local IS_CLIENT = RunService:IsClient()
 local REMOTES_TO_CREATE = {
-	EVENTS = {},
-	FUNCTIONS = {},
+	EVENTS = {
+		"RemoteEvent",
+	},
+	FUNCTIONS = {
+		"RemoteFunction",
+	},
 }
 
 local Network = {}
@@ -23,23 +27,25 @@ function Network._waitForServerStarted()
 	if not Network._serverStarted then
 		local eventsFolder = script:WaitForChild("Events")
 		local functionsFolder = script:WaitForChild("Functions")
-		for _, eventName in ipairs(REMOTES_TO_CREATE.EVENTS) do
-			eventsFolder:WaitForChild(eventName)
+		for _, remoteEventName in ipairs(REMOTES_TO_CREATE.EVENTS) do
+			repeat
+				task.wait()
+			until eventsFolder:FindFirstChild(remoteEventName)
 		end
-		for _, functionName in ipairs(REMOTES_TO_CREATE.EVENTS) do
-			functionsFolder:WaitForChild(functionName)
+		for _, remoteFunctionName in ipairs(REMOTES_TO_CREATE.FUNCTIONS) do
+			repeat
+				task.wait()
+			until functionsFolder:FindFirstChild(remoteFunctionName)
 		end
 		Network._serverStarted = true
 	end
 end
 
 function Network._getRemoteEvent(remoteEventName: string): RemoteEvent?
-	Network._waitForServerStarted()
 	return script.Events:FindFirstChild(remoteEventName)
 end
 
 function Network._getRemoteFunction(remoteFunctionName: string): RemoteFunction?
-	Network._waitForServerStarted()
 	return script.Functions:FindFirstChild(remoteFunctionName)
 end
 
@@ -65,7 +71,6 @@ end
 
 function Network.fireAllClients(remoteName: string, ...: any)
 	assert(IS_SERVER, "Network.fireAllClients can only be called from server")
-	Network._waitForServerStarted()
 	local remoteEvent = script.Events:FindFirstChild(remoteName) :: RemoteEvent
 	assert(remoteEvent, `Could not find remote event: {remoteName}`)
 	remoteEvent:FireAllClients(...)
@@ -73,7 +78,6 @@ end
 
 function Network.fireServer(remoteName: string, ...: any)
 	assert(IS_CLIENT, "Network.fireServer can only be called from client")
-	Network._waitForServerStarted()
 	local remoteEvent = script.Events:FindFirstChild(remoteName) :: RemoteEvent
 	assert(remoteEvent, `Could not find remote event: {remoteName}`)
 	remoteEvent:FireServer(...)
@@ -81,7 +85,6 @@ end
 
 function Network.invokeClient(remoteName: string, player: Player, ...: any)
 	assert(IS_SERVER, "Network.invokeClient can only be called from server")
-	Network._waitForServerStarted()
 	local remoteFunction = script.Functions:FindFirstChild(remoteName) :: RemoteFunction
 	assert(remoteFunction, `Could not find remote function: {remoteName}`)
 	return remoteFunction:InvokeClient(player, ...)
@@ -89,7 +92,6 @@ end
 
 function Network.invokeServer(remoteName: string, ...: any)
 	assert(IS_SERVER, "Network.invokeServer can only be called from client")
-	Network._waitForServerStarted()
 	local remoteFunction = script.Functions:FindFirstChild(remoteName) :: RemoteFunction
 	assert(remoteFunction, `Could not find remote function: {remoteName}`)
 	return remoteFunction:InvokeServer(...)

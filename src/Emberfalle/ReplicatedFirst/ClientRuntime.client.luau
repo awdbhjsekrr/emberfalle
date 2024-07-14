@@ -23,6 +23,8 @@ end
 local function postGameLoadTasksAsync()
 	LoadingScreen.disable()
 	local ReplicaConnector = require(ReplicatedStorage.Source.ReplicaConnector)
+	local Network = require(ReplicatedStorage.Source.Network)
+	Network.startClient()
 	ReplicaConnector.start()
 end
 

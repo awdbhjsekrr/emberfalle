@@ -23,8 +23,10 @@ function CharacterSpawner.startRespawnLoop(player: Player)
 	local newCharacterLoadedWrapper = InstanceObjectLinker.getLinkedObject(player, "CharacterLoadedWrapper")
 	local diedConnection
 	diedConnection = newCharacterLoadedWrapper.died:Connect(function()
-		task.wait(Players.RespawnTime)
-		player:LoadCharacter()
+		if player:IsDescendantOf(Players) then
+			task.wait(Players.RespawnTime)
+			player:LoadCharacter()
+		end
 	end)
 	CharacterSpawner.diedConnectionsByPlayer[player] = diedConnection
 	player:LoadCharacter()
