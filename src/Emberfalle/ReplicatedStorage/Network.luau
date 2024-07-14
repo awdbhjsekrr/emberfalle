@@ -1,4 +1,9 @@
 --!strict
+
+--[[
+	Module used to centralize remotes.
+]]
+
 local RunService = game:GetService("RunService")
 
 local IS_SERVER = RunService:IsServer()
