@@ -4,7 +4,7 @@
 	Default template for a newly created character.
 ]]
 
-type CharacterClass = "warrior" | "archer" | "mage"
+type CharacterClass = "warrior" | "paladin" | "ranger" | "mage" | "cleric" | "warlock" | "rogue" | "druid"
 type CharacterRace = "human"
 type CharacterClassSpecialization = string | false
 type CharacterEquipment = {

@@ -8,6 +8,7 @@ local RunService = game:GetService("RunService")
 
 local IS_SERVER = RunService:IsServer()
 local IS_CLIENT = RunService:IsClient()
+
 local REMOTES_TO_CREATE = {
 	EVENTS = {
 		"RemoteEvent",
@@ -79,6 +80,13 @@ function Network.fireAllClients(remoteName: string, ...: any)
 	local remoteEvent = script.Events:FindFirstChild(remoteName) :: RemoteEvent
 	assert(remoteEvent, `Could not find remote event: {remoteName}`)
 	remoteEvent:FireAllClients(...)
+end
+
+function Network.fireClient(remoteName: string, player: Player, ...: any)
+	assert(IS_SERVER, "Network.fireAllClients can only be called from server")
+	local remoteEvent = script.Events:FindFirstChild(remoteName) :: RemoteEvent
+	assert(remoteEvent, `Could not find remote event: {remoteName}`)
+	remoteEvent:FireClient(player, ...)
 end
 
 function Network.fireServer(remoteName: string, ...: any)

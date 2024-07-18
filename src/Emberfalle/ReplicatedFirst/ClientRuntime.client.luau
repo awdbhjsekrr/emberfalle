@@ -21,9 +21,13 @@ local function preGameLoadTasksAsync()
 end
 
 local function postGameLoadTasksAsync()
-	LoadingScreen.disable()
+	for _, gui in ipairs(ReplicatedStorage.StarterGui:GetChildren()) do
+		local newGui = gui:Clone()
+		newGui.Parent = localPlayer.PlayerGui
+	end
 	local ReplicaConnector = require(ReplicatedStorage.Source.ReplicaConnector)
 	local Network = require(ReplicatedStorage.Source.Network)
+	LoadingScreen.disable()
 	Network.startClient()
 	ReplicaConnector.start()
 end
