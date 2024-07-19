@@ -5,6 +5,7 @@
 ]]
 
 local PhysicsService = game:GetService("PhysicsService")
+local Workspace = game:GetService("Workspace")
 
 type CollisionGroup = "PlayerCharacters" | "NonPlayerCharacters"
 
@@ -18,6 +19,10 @@ local DEFAULT_GROUP_COLLIDABLES: { [CollisionGroup]: { [CollisionGroup]: boolean
 		["PlayerCharacters"] = false,
 		["NonPlayerCharacters"] = false,
 	},
+}
+
+local DEFAULT_INSTANCE_GROUPS: { [Instance]: CollisionGroup } = {
+	[Workspace.Npcs] = "NonPlayerCharacters",
 }
 
 local Collisions = {}
@@ -39,11 +44,11 @@ function Collisions._setCollisionGroupRecursive(instance: Instance, collisionGro
 	end
 end
 
-function Collisions.setCollisionGroup(instance: Model | Folder | BasePart, collisionGroup: CollisionGroup)
-	if instance:IsA("Model") or instance:IsA("Folder") then
-		Collisions._setCollisionGroupRecursive(instance, collisionGroup)
-	else
+function Collisions.setCollisionGroup(instance: Instance, collisionGroup: CollisionGroup)
+	if instance:IsA("BasePart") then
 		instance.CollisionGroup = collisionGroup
+	else
+		Collisions._setCollisionGroupRecursive(instance, collisionGroup)
 	end
 end
 
@@ -59,6 +64,9 @@ function Collisions.start()
 				collidable
 			)
 		end
+	end
+	for instance, collisionGroup in pairs(DEFAULT_INSTANCE_GROUPS) do
+		Collisions.setCollisionGroup(instance, collisionGroup :: CollisionGroup)
 	end
 end
 

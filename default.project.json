@@ -6,11 +6,13 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedFirst": {
+      "$ignoreUnknownInstances": true,
       "$className": "ReplicatedFirst",
       "$path": "src/Emberfalle/ReplicatedFirst"
     },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
+      "$ignoreUnknownInstances": true,
       "Source": {
         "$path": "src/Emberfalle/ReplicatedStorage",
         "Packages": {
@@ -24,6 +26,7 @@
     },
     "ServerStorage": {
       "$className": "ServerStorage",
+      "$ignoreUnknownInstances": true,
       "Source": {
         "$path": "src/Emberfalle/ServerStorage",
         "ServerPackages": {

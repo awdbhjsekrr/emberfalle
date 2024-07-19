@@ -5,7 +5,7 @@
 ]]
 
 type CharacterClass = "warrior" | "paladin" | "ranger" | "mage" | "cleric" | "warlock" | "rogue" | "druid"
-type CharacterRace = "human"
+type CharacterRace = "human" | "beastfolk" | "undead" | "orc"
 type CharacterClassSpecialization = string | false
 type CharacterEquipment = {
 	head: string | false,

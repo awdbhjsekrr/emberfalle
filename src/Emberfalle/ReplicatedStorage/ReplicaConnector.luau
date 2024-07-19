@@ -29,7 +29,7 @@ function ReplicaConnector.waitForReplicasOfClass(className: string)
 	return ReplicaConnector._replicas[className]
 end
 
-function ReplicaConnector.getReplicaOfClassByTag(className: string, tagName: string, tagValue: any)
+function ReplicaConnector.getReplicaOfClassByTag(className: string, tagName: string, tagValue: any): any
 	local replicasOfClass = ReplicaConnector.waitForReplicasOfClass(className)
 	if not replicasOfClass then
 		return

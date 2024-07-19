@@ -21,8 +21,11 @@ Network.startServer()
 ProfileManager.start()
 Collisions.start()
 
-for _, gui in ipairs(game:GetService("StarterGui"):GetChildren()) do
-	gui.Parent = ReplicatedStorage.StarterGui
+local function serverStartup()
+	-- Move any guis to custom StarterGui folder to load them without needing to load character first.
+	for _, gui in ipairs(game:GetService("StarterGui"):GetChildren()) do
+		gui.Parent = ReplicatedStorage.StarterGui
+	end
 end
 
 local function onPlayerAdded(newPlayer: Player)
@@ -36,4 +39,4 @@ safePlayerAdded(function(newPlayer: Player)
 	onPlayerAdded(newPlayer)
 end)
 
-Collisions.setCollisionGroup(Workspace.CharacterCreationZone.CharacterCreationRig, "NonPlayerCharacters")
+serverStartup()
