@@ -12,9 +12,14 @@ local IS_CLIENT = RunService:IsClient()
 local REMOTES_TO_CREATE = {
 	EVENTS = {
 		"RemoteEvent",
+		"RemoveReplicateCamera",
 	},
 	FUNCTIONS = {
 		"RemoteFunction",
+		"AddReplicateCamera",
+	},
+	UNRELIABLE_EVENTS = {
+		"UnreliableRemoteEvent",
 	},
 }
 
@@ -48,7 +53,7 @@ function Network._waitForServerStarted()
 end
 
 function Network._getRemoteEvent(remoteEventName: string): RemoteEvent?
-	return script.Events:FindFirstChild(remoteEventName)
+	return script.Events:FindFirstChild(remoteEventName) or script.UnreliableEvents:FindFirstChild(remoteEventName)
 end
 
 function Network._getRemoteFunction(remoteFunctionName: string): RemoteFunction?
@@ -104,18 +109,22 @@ function Network.invokeClient(remoteName: string, player: Player, ...: any)
 end
 
 function Network.invokeServer(remoteName: string, ...: any)
-	assert(IS_SERVER, "Network.invokeServer can only be called from client")
+	assert(IS_CLIENT, "Network.invokeServer can only be called from client")
 	local remoteFunction = script.Functions:FindFirstChild(remoteName) :: RemoteFunction
 	assert(remoteFunction, `Could not find remote function: {remoteName}`)
-	return remoteFunction:InvokeServer(...)
+	local val, resp = pcall(remoteFunction.InvokeServer, remoteFunction, ...)
+	print("retutning", val, resp)
+	return resp
 end
 
 function Network.startServer()
 	assert(IS_SERVER, "Network.startServer can only be called from server")
-	createInstances("Folder", { "Events", "Functions" }, script)
+	assert(not Network._serverStarted, "Network.startServer already started")
+	Network._serverStarted = true
+	createInstances("Folder", { "Events", "Functions", "UnreliableEvents" }, script)
 	createInstances("RemoteEvent", REMOTES_TO_CREATE.EVENTS, script.Events)
 	createInstances("RemoteFunction", REMOTES_TO_CREATE.FUNCTIONS, script.Functions)
-	Network._serverStarted = true
+	createInstances("UnreliableRemoteEvent", REMOTES_TO_CREATE.UNRELIABLE_EVENTS, script.UnreliableEvents)
 end
 
 function Network.startClient()

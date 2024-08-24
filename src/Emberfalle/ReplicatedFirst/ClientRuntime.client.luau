@@ -4,11 +4,12 @@
 	Client sided entry point for all code in the experience.
 ]]
 
-_G.__DEV__ = game:GetService("RunService"):IsStudio()
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local RunService = game:GetService("RunService")
+
+_G.__DEV__ = RunService:IsStudio()
 
 local LoadingScreen = require(ReplicatedFirst.Source.LoadingScreen)
 
@@ -30,14 +31,22 @@ local function postGameLoadTasksAsync()
 
 	local ReplicaConnector = require(ReplicatedStorage.Source.ReplicaConnector)
 	local Network = require(ReplicatedStorage.Source.Network)
+	local CinematicCamera = require(ReplicatedStorage.Source.CinematicCamera)
+	local Collisions = require(ReplicatedStorage.Source.Collisions)
+	local CharacterSpawner = require(ReplicatedStorage.Source.CharacterSpawner)
 
 	LoadingScreen.disable()
 	Network.startClient()
 	ReplicaConnector.start()
+	CinematicCamera.startClient()
+	CharacterSpawner.addCharacterAddedCallback(localPlayer, "SetCollisionGroup", function(character: Model)
+		Collisions.setCollisionGroup(character, "PlayerCharacters")
+	end)
 
 	local profile = ReplicaConnector.getReplicaOfClassByTag("PlayerProfile", "Player", localPlayer)
-	assert(profile, "Could not fetch profile")
-	print("Got", profile.Data)
+	if #profile.Data.characters < 1 then
+		CinematicCamera.playTrack("CharacterCreation", 0)
+	end
 end
 
 preGameLoadTasksAsync()

@@ -15,7 +15,9 @@ local gui = ReplicatedFirst.Instances.LoadingGui
 
 function LoadingScreen.enable()
 	gui.Parent = Players.LocalPlayer.PlayerGui
-	task.wait(MIN_RUN_TIME)
+	if not _G.__DEV__ then
+		task.wait(MIN_RUN_TIME)
+	end
 end
 
 function LoadingScreen.disable()
