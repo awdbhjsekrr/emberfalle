@@ -14,10 +14,7 @@
       "$className": "ReplicatedStorage",
       "$ignoreUnknownInstances": true,
       "Source": {
-        "$path": "src/Emberfalle/ReplicatedStorage",
-        "Packages": {
-          "$path": "Packages"
-        }
+        "$path": "src/Emberfalle/ReplicatedStorage"
       }
     },
     "ServerScriptService": {
