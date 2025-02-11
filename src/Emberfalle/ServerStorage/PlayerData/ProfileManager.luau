@@ -10,7 +10,7 @@ local ServerStorage = game:GetService("ServerStorage")
 
 local ProfileStore = require(ServerStorage.Source.ServerPackages.profilestore)
 
-local DEFAULT_PROFILE_DATA = require(ServerStorage.Source.PlayerData.DefaultProfileData)
+local DEFAULT_PROFILE_DATA = require(ReplicatedStorage.Source.SharedConstants.DefaultProfileData)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 
@@ -19,22 +19,23 @@ local profiles: { [Player]: typeof(playerStore:StartSessionAsync("", { Cancel = 
 
 local ProfileManager = {}
 
-local function onPlayerRemoving(player: Player)
+local function onPlayerRemoving(player: Player, msg: string?)
 	local profile = profiles[player]
 	if profile then
 		profiles[player] = nil
-		player:Kick()
 	end
+	player:Kick(msg)
 end
 
 local function onPlayerAdded(player: Player)
-	print("Loading data for", player)
 	local userId = player.UserId
+	
 	local profile = playerStore:StartSessionAsync(`{userId}`, {
 		Cancel = function()
 			return player.Parent ~= Players
 		end,
 	})
+
 	if profile ~= nil then
 		profile:AddUserId(userId)
 		profile:Reconcile()
@@ -49,7 +50,7 @@ local function onPlayerAdded(player: Player)
 			profile:EndSession()
 		end
 	else
-		player:Kick("Failed to load data! Try rejoining.")
+		onPlayerRemoving(player, "Failed to load data! Try rejoining.")
 	end
 end
 
@@ -60,7 +61,21 @@ function listenForPlayers()
 	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
+function waitForDataReady(player: Player)
+	while true do
+		if not player or not player:IsDescendantOf(Players) then
+			return
+		end
+		local profile = profiles[player]
+		if profile and profile:IsActive() then
+			return
+		end
+		task.wait()
+	end
+end
+
 function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DEFAULT_PROFILE_DATA.ClassType?
+	waitForDataReady(player)
 	local profile = profiles[player]
 	if not profile or not profile:IsActive() then
 		return
@@ -77,6 +92,7 @@ function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DE
 end
 
 function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
+	waitForDataReady(player)
 	local profile = profiles[player]
 	if not profile or not profile:IsActive() then
 		return
