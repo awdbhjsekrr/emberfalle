@@ -11,44 +11,23 @@ local IS_CLIENT = RunService:IsClient()
 
 local REMOTES_TO_CREATE = {
 	EVENTS = {
-		"RemoteEvent",
-		"RemoveReplicateCamera",
+		"RemoteEvent"
 	},
 	FUNCTIONS = {
-		"RemoteFunction",
-		"AddReplicateCamera",
+		"RemoteFunction"
 	},
 	UNRELIABLE_EVENTS = {
-		"UnreliableRemoteEvent",
+		"UnreliableRemoteEvent"
 	},
 }
 
 local Network = {}
-Network._serverStarted = false
 
 local function createInstances(className: string, instanceNameList: { string }, parent: Instance)
 	for _, instanceName in ipairs(instanceNameList) do
 		local newInstance = Instance.new(className)
 		newInstance.Name = instanceName
 		newInstance.Parent = parent
-	end
-end
-
-function Network._waitForServerStarted()
-	if not Network._serverStarted then
-		local eventsFolder = script:WaitForChild("Events")
-		local functionsFolder = script:WaitForChild("Functions")
-		for _, remoteEventName in ipairs(REMOTES_TO_CREATE.EVENTS) do
-			repeat
-				task.wait()
-			until eventsFolder:FindFirstChild(remoteEventName)
-		end
-		for _, remoteFunctionName in ipairs(REMOTES_TO_CREATE.FUNCTIONS) do
-			repeat
-				task.wait()
-			until functionsFolder:FindFirstChild(remoteFunctionName)
-		end
-		Network._serverStarted = true
 	end
 end
 
@@ -119,17 +98,11 @@ end
 
 function Network.startServer()
 	assert(IS_SERVER, "Network.startServer can only be called from server")
-	assert(not Network._serverStarted, "Network.startServer already started")
 	Network._serverStarted = true
 	createInstances("Folder", { "Events", "Functions", "UnreliableEvents" }, script)
 	createInstances("RemoteEvent", REMOTES_TO_CREATE.EVENTS, script.Events)
 	createInstances("RemoteFunction", REMOTES_TO_CREATE.FUNCTIONS, script.Functions)
 	createInstances("UnreliableRemoteEvent", REMOTES_TO_CREATE.UNRELIABLE_EVENTS, script.UnreliableEvents)
-end
-
-function Network.startClient()
-	assert(IS_CLIENT, "Network.startClient can only be called from client")
-	Network._waitForServerStarted()
 end
 
 return Network

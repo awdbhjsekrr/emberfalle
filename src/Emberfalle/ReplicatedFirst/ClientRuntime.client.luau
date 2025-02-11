@@ -15,23 +15,20 @@ local setCoreGuisEnabled = require(ReplicatedFirst.Source.Utility.setCoreGuisEna
 
 local localPlayer = Players.LocalPlayer
 
-local function preGameLoadTasksAsync()
+local function preGameLoadTasks()
 	setCoreGuisEnabled(false)
 	LoadingScreen.enable()
 end
 
-local function postGameLoadTasksAsync()
+local function postGameLoadTasks()
 	for _, gui in ipairs(ReplicatedStorage.StarterGui:GetChildren()) do
 		local newGui = gui:Clone()
 		newGui.Parent = localPlayer.PlayerGui
 	end
 
-	local Network = require(ReplicatedStorage.Source.Network)
-
 	LoadingScreen.disable()
-	Network.startClient()
 end
 
-preGameLoadTasksAsync()
+preGameLoadTasks()
 waitForGameLoaded()
-postGameLoadTasksAsync()
+postGameLoadTasks()
