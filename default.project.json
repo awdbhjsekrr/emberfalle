@@ -1,35 +1,40 @@
 {
-  "name": "emberfalle",
-  "servePlaceIds": [
-    17651098436
-  ],
-  "tree": {
-    "$className": "DataModel",
-    "ReplicatedFirst": {
-      "$ignoreUnknownInstances": true,
-      "$className": "ReplicatedFirst",
-      "$path": "src/Emberfalle/ReplicatedFirst"
-    },
-    "ReplicatedStorage": {
-      "$className": "ReplicatedStorage",
-      "$ignoreUnknownInstances": true,
-      "Source": {
-        "$path": "src/Emberfalle/ReplicatedStorage"
-      }
-    },
-    "ServerScriptService": {
-      "$className": "ServerScriptService",
-      "$path": "src/Emberfalle/ServerScriptService"
-    },
-    "ServerStorage": {
-      "$className": "ServerStorage",
-      "$ignoreUnknownInstances": true,
-      "Source": {
-        "$path": "src/Emberfalle/ServerStorage",
-        "ServerPackages": {
-          "$path": "ServerPackages"
-        }
-      }
-    }
-  }
+	"name": "emberfalle",
+	"servePlaceIds": [13109009352],
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedFirst": {
+			"$ignoreUnknownInstances": true,
+			"$className": "ReplicatedFirst",
+			"$path": "src/Emberfalle/ReplicatedFirst"
+		},
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"$ignoreUnknownInstances": true,
+			"Source": {
+				"$path": "src/Emberfalle/ReplicatedStorage",
+				"Packages": {
+					"$path": {
+						"optional": "Packages"
+					}
+				}
+			}
+		},
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"$path": "src/Emberfalle/ServerScriptService"
+		},
+		"ServerStorage": {
+			"$className": "ServerStorage",
+			"$ignoreUnknownInstances": true,
+			"Source": {
+				"$path": "src/Emberfalle/ServerStorage",
+				"ServerPackages": {
+					"$path": {
+						"optional": "ServerPackages"
+					}
+				}
+			}
+		}
+	}
 }

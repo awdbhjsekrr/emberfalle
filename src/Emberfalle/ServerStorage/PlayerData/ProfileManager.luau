@@ -1,108 +1,72 @@
 --!strict
 
 --[[
-	Interface for interacting with a player's ProfileService profile.
+	Interface for interacting with a player's ProfileStore profile.
 ]]
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
-local ProfileService = require(ServerStorage.Source.ServerPackages.profileservice)
-local ReplicaService = require(ServerStorage.Source.ServerPackages.replicaservice)
+local ProfileStore = require(ServerStorage.Source.ServerPackages.profilestore)
 
-local REQUEST_TIMEOUT = 10
-local DATA_STORE_NAME = "aaaaaaaaaaaaab"
 local DEFAULT_PROFILE_DATA = require(ServerStorage.Source.PlayerData.DefaultProfileData)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 
-local playerProfileClassToken = ReplicaService.NewClassToken("PlayerProfile")
-local profileStore = ProfileService.GetProfileStore(DATA_STORE_NAME, DEFAULT_PROFILE_DATA)
+local playerStore = ProfileStore.New("PlayerStore", DEFAULT_PROFILE_DATA)
+local profiles: { [Player]: typeof(playerStore:StartSessionAsync("", { Cancel = function() end })) } = {}
 
 local ProfileManager = {}
-ProfileManager._profileCache = {}
-ProfileManager._replicaCache = {}
 
-function ProfileManager.start()
-	ProfileManager._listenForPlayers()
+local function onPlayerRemoving(player: Player)
+	local profile = profiles[player]
+	if profile then
+		profiles[player] = nil
+		player:Kick()
+	end
 end
 
-function ProfileManager._onPlayerAddedAsync(player: Player)
+local function onPlayerAdded(player: Player)
+	print("Loading data for", player)
 	local userId = player.UserId
-	local profile = profileStore:LoadProfileAsync(`Player_{userId}`)
+	local profile = playerStore:StartSessionAsync(`{userId}`, {
+		Cancel = function()
+			return player.Parent ~= Players
+		end,
+	})
 	if profile ~= nil then
 		profile:AddUserId(userId)
 		profile:Reconcile()
-		profile:ListenToRelease(function()
-			ProfileManager._replicaCache[userId]:Destroy()
-			ProfileManager._profileCache[userId] = nil
-			player:Kick()
-			return
+
+		profile.OnSessionEnd:Connect(function()
+			onPlayerRemoving(player)
 		end)
-		if player:IsDescendantOf(Players) == true then
-			ProfileManager._profileCache[userId] = profile
-			ProfileManager._replicaCache[userId] = ReplicaService.NewReplica({
-				ClassToken = playerProfileClassToken,
-				Data = profile.Data,
-				Replication = "All",
-				Tags = { Player = player },
-				WriteLib = nil,
-			} :: any) :: any
+
+		if player:IsDescendantOf(Players) then
+			profiles[player] = profile
 		else
-			profile:Release()
+			profile:EndSession()
 		end
 	else
 		player:Kick("Failed to load data! Try rejoining.")
 	end
 end
 
-function ProfileManager._onplayerRemovingAsync(player: Player)
-	local userId = player.UserId
-	local cachedProfile = ProfileManager._profileCache[userId]
-	if cachedProfile then
-		cachedProfile:Release()
-	end
-end
-
-function ProfileManager._listenForPlayers()
+function listenForPlayers()
 	safePlayerAdded(function(newPlayer: Player)
-		ProfileManager._onPlayerAddedAsync(newPlayer)
+		onPlayerAdded(newPlayer)
 	end)
-	Players.PlayerRemoving:Connect(ProfileManager._onplayerRemovingAsync)
+	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
-function ProfileManager._isDataReady(player: Player): boolean
-	local userId = player.UserId
-	local profile = ProfileManager._profileCache[userId]
-	local replica = ProfileManager._replicaCache[userId]
-	if profile and replica and replica:IsActive() then
-		return true
+function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DEFAULT_PROFILE_DATA.ClassType?
+	local profile = profiles[player]
+	if not profile or not profile:IsActive() then
+		return
 	end
-	return false
-end
-
-function ProfileManager._waitForDataReady(player: Player)
-	local startedTick = tick()
-	while true do
-		if not player or (tick() - startedTick) > REQUEST_TIMEOUT then
-			warn("Player doesn't exist or timed out waiting for data ready")
-			return
-		end
-		if ProfileManager._isDataReady(player) then
-			return
-		end
-		task.wait()
-	end
-end
-
-function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DEFAULT_PROFILE_DATA.ClassType
-	ProfileManager._waitForDataReady(player)
-	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
-	local userId = player.UserId
-	local profile = ProfileManager._profileCache[userId]
 	if typeof(path) == "table" then
-		local pointer = profile.Data
+		local pointer: DEFAULT_PROFILE_DATA.ClassType = profile.Data
 		for i = 1, #path - 1 do
 			pointer = pointer[path[i]]
 		end
@@ -113,33 +77,36 @@ function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DE
 end
 
 function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
-	ProfileManager._waitForDataReady(player)
-	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
-	local userId = player.UserId
-	local replica = ProfileManager._replicaCache[userId]
-	replica:SetValue(path, value)
-end
-
-function ProfileManager.arrayInsert(player: Player, path: { [number]: any }, value: any)
-	ProfileManager._waitForDataReady(player)
-	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
-	local userId = player.UserId
-	local replica = ProfileManager._replicaCache[userId]
-	replica:ArraySet(path, value)
-end
-
-function ProfileManager.arrayRemove(player: Player, path: { [number]: any }, value: any)
-	ProfileManager._waitForDataReady(player)
-	assert(ProfileManager._isDataReady(player), `Error loading data for player: {player}`)
-	local userId = player.UserId
-	local replica = ProfileManager._replicaCache[userId]
-	replica:ArrayRemove(path, value)
+	local profile = profiles[player]
+	if not profile or not profile:IsActive() then
+		return
+	end
+	if typeof(path) == "table" then
+		local pointer: DEFAULT_PROFILE_DATA.ClassType = profile.Data
+		for i = 1, #path - 1 do
+			pointer = pointer[path[i]]
+		end
+		pointer[path] = value
+	else
+		warn(`Attempt to set {player.Name} data failed. Invalid path: {path}`)
+	end
 end
 
 function ProfileManager.increment(player: Player, path: { [number]: any }, value: number)
+	local profile = profiles[player]
+	if not profile or not profile:IsActive() then
+		return
+	end
 	local currentValue = ProfileManager.get(player, path)
-	assert(typeof(currentValue) == "number", `Increment can only be used on number: {player}, {path}`)
-	ProfileManager.set(player, path, currentValue + value)
+	if type(currentValue) == "number" then
+		ProfileManager.set(player, path, currentValue + value)
+	else
+		warn(`Attempt to increment {player.Name} data failed. Can only increment numbers got: {currentValue}`)
+	end
+end
+
+function ProfileManager.start()
+	listenForPlayers()
 end
 
 return ProfileManager

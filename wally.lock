@@ -5,9 +5,9 @@ registry = "test"
 [[package]]
 name = "cherri/emberfalle"
 version = "0.1.0"
-dependencies = [["profileservice", "grilme99/profileservice@1.0.0"]]
+dependencies = [["profilestore", "lm-loleris/profilestore@1.0.2"]]
 
 [[package]]
-name = "grilme99/profileservice"
-version = "1.0.0"
+name = "lm-loleris/profilestore"
+version = "1.0.2"
 dependencies = []

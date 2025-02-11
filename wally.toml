@@ -4,5 +4,7 @@ version = "0.1.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
+[dependencies]
+
 [server-dependencies]
-profileservice = "grilme99/profileservice@1.0.0"
+profilestore = "lm-loleris/profilestore@1.0.2"
