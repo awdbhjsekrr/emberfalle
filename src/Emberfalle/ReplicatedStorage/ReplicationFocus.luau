@@ -21,6 +21,15 @@ local ReplicationFocusContainer: Model
 local myReplicationFocus: Part
 local replicationFocusCache: { [Player]: Part } = {}
 
+local function onPlayerRemoving(player: Player)
+	local replicationFocus = replicationFocusCache[player]
+	if not replicationFocus then
+		return
+	end
+	replicationFocus:Destroy()
+	replicationFocusCache[player] = nil
+end
+
 function ReplicationFocus.startServer()
 	assert(IS_SERVER, "startServer can only be called by the server.")
 	ReplicationFocusContainer = Instance.new("Model")
@@ -45,6 +54,7 @@ function ReplicationFocus.startServer()
 		replicationFocusCache[player] = newPart
 		return true
 	end)
+	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
 function ReplicationFocus.startClient()
