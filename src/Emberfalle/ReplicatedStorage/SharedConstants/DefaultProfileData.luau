@@ -4,9 +4,7 @@
 	Default profile for new players.
 ]]
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local DefaultCharacterData = require(ReplicatedStorage.Source.SharedConstants.DefaultCharacterData)
+local DefaultCharacterData = require("./DefaultCharacterData")
 
 export type ClassType = {
 	account: {

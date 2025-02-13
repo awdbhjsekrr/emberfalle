@@ -9,11 +9,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ProfileManager = require(ServerStorage.Source.PlayerData.ProfileManager)
 local Network = require(ReplicatedStorage.Source.Network)
+local ReplicationFocus = require(ReplicatedStorage.Source.ReplicationFocus)
 
 local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
 
 Network.startServer()
 ProfileManager.start()
+ReplicationFocus.startServer()
 
 local function serverStartup()
 	-- Move any guis to custom StarterGui folder to load them without needing to load character first.

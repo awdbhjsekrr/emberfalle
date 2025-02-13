@@ -21,12 +21,15 @@ local function preGameLoadTasks()
 end
 
 local function postGameLoadTasks()
+	local ReplicationFocus = require(ReplicatedStorage.Source.ReplicationFocus)
+
 	for _, gui in ipairs(ReplicatedStorage.StarterGui:GetChildren()) do
 		local newGui = gui:Clone()
 		newGui.Parent = localPlayer.PlayerGui
 	end
-
 	LoadingScreen.disable()
+
+	ReplicationFocus.startClient()
 end
 
 preGameLoadTasks()
