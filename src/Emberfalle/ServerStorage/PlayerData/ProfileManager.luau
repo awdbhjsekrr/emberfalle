@@ -29,7 +29,7 @@ end
 
 local function onPlayerAdded(player: Player)
 	local userId = player.UserId
-	
+
 	local profile = playerStore:StartSessionAsync(`{userId}`, {
 		Cancel = function()
 			return player.Parent ~= Players

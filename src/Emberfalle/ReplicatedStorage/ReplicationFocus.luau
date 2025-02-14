@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local CollectionService = game:GetService("CollectionService")
 
-local Network = require(ReplicatedStorage.Source.Network)
+local Network = ReplicatedStorage.Network
 
 local IS_SERVER = RunService:IsServer()
 local IS_CLIENT = RunService:IsClient()
@@ -36,7 +36,7 @@ function ReplicationFocus.startServer()
 	ReplicationFocusContainer.Name = "ReplicationFocusContainer"
 	ReplicationFocusContainer.Parent = workspace
 	ReplicationFocusContainer.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-	Network.bindFunction("CreateReplicationFocusPart", function(player: Player)
+	Network.CreateReplicationFocusPart.OnServerInvoke = function(player: Player)
 		print("Creating ReplicationFocus part")
 		if replicationFocusCache[player] then
 			warn(`ReplicationFocus part already exists for {player}`)
@@ -53,14 +53,14 @@ function ReplicationFocus.startServer()
 		player.ReplicationFocus = newPart
 		replicationFocusCache[player] = newPart
 		return true
-	end)
+	end
 	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
 function ReplicationFocus.startClient()
 	assert(IS_CLIENT, "startClient can only be called by the client.")
 	assert(not myReplicationFocus, "ReplicationFocus part already created.")
-	local createPartSuccess = Network.invokeServer("CreateReplicationFocusPart")
+	local createPartSuccess = Network.CreateReplicationFocusPart:InvokeServer()
 	assert(createPartSuccess ~= nil, "Error creating new ReplicationFocus part.")
 	local player = Players.LocalPlayer
 	local camera = workspace.CurrentCamera
