@@ -10,9 +10,11 @@ local ServerStorage = game:GetService("ServerStorage")
 
 local ProfileStore = require(ServerStorage.Source.ServerPackages.profilestore)
 
+local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
+
 local DEFAULT_PROFILE_DATA = require(ReplicatedStorage.Source.SharedConstants.DefaultProfileData)
 
-local safePlayerAdded = require(ReplicatedStorage.Source.Utility.safePlayerAdded)
+local Network = ReplicatedStorage.Network
 
 local playerStore = ProfileStore.New("PlayerStore", DEFAULT_PROFILE_DATA)
 local profiles: { [Player]: typeof(playerStore:StartSessionAsync("", { Cancel = function() end })) } = {}
@@ -46,6 +48,7 @@ local function onPlayerAdded(player: Player)
 
 		if player:IsDescendantOf(Players) then
 			profiles[player] = profile
+			Network.ProfileUpdated:FireAllClients(player, profile.Data)
 		else
 			profile:EndSession()
 		end
@@ -78,6 +81,7 @@ function ProfileManager.get<T>(player: Player, path: { [number]: any }?): T | DE
 	waitForDataReady(player)
 	local profile = profiles[player]
 	if not profile or not profile:IsActive() then
+		warn("Error getting profile.")
 		return
 	end
 	if typeof(path) == "table" then
@@ -95,6 +99,7 @@ function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 	waitForDataReady(player)
 	local profile = profiles[player]
 	if not profile or not profile:IsActive() then
+		warn("Error getting profile.")
 		return
 	end
 	if typeof(path) == "table" then
@@ -103,8 +108,9 @@ function ProfileManager.set(player: Player, path: { [number]: any }, value: any)
 			pointer = pointer[path[i]]
 		end
 		pointer[path] = value
+		Network.ProfileUpdated:FireAllClients(player, profile.Data)
 	else
-		warn(`Attempt to set {player.Name} data failed. Invalid path: {path}`)
+		warn(`Attempt to set data failed. Invalid path.`)
 	end
 end
 
@@ -117,12 +123,21 @@ function ProfileManager.increment(player: Player, path: { [number]: any }, value
 	if type(currentValue) == "number" then
 		ProfileManager.set(player, path, currentValue + value)
 	else
-		warn(`Attempt to increment {player.Name} data failed. Can only increment numbers got: {currentValue}`)
+		warn(`Attempt to increment data failed. Can only increment numbers.`)
 	end
 end
 
 function ProfileManager.start()
 	listenForPlayers()
+	Network.FetchProfiles.OnServerInvoke = function()
+		local resp = {}
+		for player, profile in pairs(profiles) do
+			if profile and profile:IsActive() then
+				resp[player] = profile.Data
+			end
+		end
+		return resp
+	end
 end
 
 return ProfileManager

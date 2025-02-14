@@ -22,6 +22,8 @@ end
 
 local function postGameLoadTasks()
 	local ReplicationFocus = require(ReplicatedStorage.Source.ReplicationFocus)
+	local CharacterCreation = require(ReplicatedStorage.Source.CharacterCreation)
+	local ProfileReplica = require(ReplicatedStorage.Source.ProfileReplica)
 
 	for _, gui in ipairs(ReplicatedStorage.StarterGui:GetChildren()) do
 		local newGui = gui:Clone()
@@ -29,7 +31,10 @@ local function postGameLoadTasks()
 	end
 	LoadingScreen.disable()
 
+	ProfileReplica.startClient()
 	ReplicationFocus.startClient()
+
+	setCoreGuisEnabled(true)
 end
 
 preGameLoadTasks()

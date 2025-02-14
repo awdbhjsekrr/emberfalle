@@ -7,7 +7,7 @@
 local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local ProfileManager = require(ServerStorage.Source.PlayerData.ProfileManager)
+local ProfileManager = require(ServerStorage.Source.ProfileManager)
 local ReplicationFocus = require(ReplicatedStorage.Source.ReplicationFocus)
 local CharacterSpawner = require(ServerStorage.Source.CharacterSpawner)
 
@@ -23,14 +23,10 @@ local function serverStartup()
 	end
 end
 
-local function onPlayerAdded(newPlayer: Player)
-	local data = ProfileManager.get(newPlayer)
-	print("Got data", data)
-	CharacterSpawner.startRespawnLoop(newPlayer)
-end
+local function onPlayerAdded(player: Player) end
 
-safePlayerAdded(function(newPlayer: Player)
-	onPlayerAdded(newPlayer)
+safePlayerAdded(function(player: Player)
+	onPlayerAdded(player)
 end)
 
 serverStartup()

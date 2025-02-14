@@ -59,9 +59,12 @@ end
 
 function ReplicationFocus.startClient()
 	assert(IS_CLIENT, "startClient can only be called by the client.")
-	assert(not myReplicationFocus, "ReplicationFocus part already created.")
+	if myReplicationFocus then
+		warn("ReplicationFocus already created.")
+		return
+	end
 	local createPartSuccess = Network.CreateReplicationFocusPart:InvokeServer()
-	assert(createPartSuccess ~= nil, "Error creating new ReplicationFocus part.")
+	assert(createPartSuccess ~= nil, "Error creating new ReplicationFocus.")
 	local player = Players.LocalPlayer
 	local camera = workspace.CurrentCamera
 	local myTag = `{player.UserId}ReplicationFocus`

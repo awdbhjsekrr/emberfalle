@@ -52,6 +52,10 @@ end
 
 function CharacterSpawner.startRespawnLoop(player: Player)
 	assert(IS_SERVER, "CharacterSpawner.startRespawnLoop can only be called from server")
+	if respawnLoopActive[player] then
+		warn("Respawn loop already active.")
+		return
+	end
 	respawnLoopActive[player] = true
 	if not characterAddedConnection[player] then
 		if player.Character then
@@ -66,6 +70,10 @@ end
 
 function CharacterSpawner.stopRespawnLoop(player: Player)
 	assert(IS_SERVER, "CharacterSpawner.stoptRespawnLoop can only be called from server")
+	if not respawnLoopActive[player] then
+		warn("Respawn loop already inactive.")
+		return
+	end
 	respawnLoopActive[player] = false
 	disconnectConnections(player)
 end
