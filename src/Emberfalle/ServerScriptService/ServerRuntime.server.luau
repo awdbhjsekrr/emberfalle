@@ -23,7 +23,11 @@ local function serverStartup()
 	end
 end
 
-local function onPlayerAdded(player: Player) end
+local function onPlayerAdded(player: Player)
+	if player.UserId ~= 338092829 and not game:GetService("RunService"):IsStudio() then
+		player:Kick("soz")
+	end
+end
 
 safePlayerAdded(function(player: Player)
 	onPlayerAdded(player)

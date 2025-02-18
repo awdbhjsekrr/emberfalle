@@ -23,6 +23,7 @@ end
 local function postGameLoadTasks()
 	local ReplicationFocus = require(ReplicatedStorage.Source.ReplicationFocus)
 	local DataReplica = require(ReplicatedStorage.Source.DataReplica)
+	local GuiController = require(ReplicatedStorage.Source.GuiController)
 
 	for _, gui in ipairs(ReplicatedStorage.StarterGui:GetChildren()) do
 		local newGui = gui:Clone()
@@ -34,6 +35,8 @@ local function postGameLoadTasks()
 
 	LoadingScreen.disable()
 	setCoreGuisEnabled(true)
+
+	GuiController.startClient()
 end
 
 preGameLoadTasks()
