@@ -27,7 +27,6 @@ local slowTweenTime = 3
 local averageTweenTime = 1.25
 local fastTweenTime = 0.25
 local slowTweenInfo = TweenInfo.new(slowTweenTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-local averageTweenInfo = TweenInfo.new(averageTweenTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 local fastTweenInfo = TweenInfo.new(fastTweenTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
 local function setupGuiForStartupAnimation()
@@ -70,9 +69,16 @@ progressBar:GetPropertyChangedSignal("Size"):Connect(function()
 end)
 
 gui.Background.Container.ChildAdded:Connect(function(newParticle: Frame)
-	local particleSize = math.random(10, 50) * 0.0001
-	local transparency = math.random(70, 90) * 0.01
+	local particleSize = math.random(30, 70) * 0.0001
+	local transparency = math.random(40, 80) * 0.01
+	local colors = {
+		Color3.fromHex("A6FF40"),
+		Color3.fromHex("FFDE26"),
+		Color3.fromHex("D3FFF2"),
+	}
+	local thisColor = colors[math.random(1, #colors)]
 	newParticle.Size = UDim2.new(particleSize, 0, particleSize, 0)
+	newParticle.BackgroundColor3 = thisColor
 	newParticle.Position = UDim2.new(math.random(0, 100) * 0.01, 0, math.random(0, 100) * 0.01, 0)
 	fadeGuiObject(newParticle, 1, transparency)
 	TweenService:Create(newParticle, TweenInfo.new(slowTweenTime + 5), {
@@ -95,9 +101,11 @@ local function playStartupAnimation()
 		Position = UDim2.new(0.5, 0, 0.5, 0),
 	}):Play()
 
+	local spawnParticles = true
+
 	-- Particle effect
 	task.spawn(function()
-		while true do
+		while spawnParticles do
 			task.wait(math.random(1, 100) * 0.01)
 			local newParticle = gui.Assets.Particle:Clone()
 			newParticle.Parent = gui.Background.Container
@@ -109,13 +117,13 @@ local function playStartupAnimation()
 	fadeGuiObject(icon, 1, 0)
 	fadeGuiObject(versionLabel, 1, 0)
 	task.wait(0.2)
-	fadeGuiObject(loadingText, 1, 0.9)
+	fadeGuiObject(loadingText, 1, 0.5)
 	task.wait(1)
 	fadeGuiObject(leftBracket, 1, 0)
 	fadeGuiObject(rightBracket, 1, 0)
-	fadeGuiObject(progressLabel, 1, 0.9)
+	fadeGuiObject(progressLabel, 1, 0.5)
 
-	task.wait(slowTweenTime + 0.5)
+	task.wait(slowTweenTime + 0.1)
 
 	for i = 0, 1, 0.01 do
 		task.wait(math.random(1, 20) * 0.01)
@@ -124,17 +132,24 @@ local function playStartupAnimation()
 		}):Play()
 	end
 
-	task.wait(0.25)
+	task.wait(1)
 	fadeGuiObject(leftBracket, 0, 1, TweenInfo.new(fastTweenTime))
 	fadeGuiObject(rightBracket, 0, 1, TweenInfo.new(fastTweenTime))
-	fadeGuiObject(progressLabel, 0.9, 1, TweenInfo.new(fastTweenTime))
+	fadeGuiObject(progressLabel, 0.5, 1, TweenInfo.new(fastTweenTime))
 	fadeGuiObject(progressBar, 0, 1, TweenInfo.new(fastTweenTime))
-	fadeGuiObject(loadingText, 0.9, 1, TweenInfo.new(fastTweenTime))
+	fadeGuiObject(loadingText, 0.5, 1, TweenInfo.new(fastTweenTime))
 	task.wait(fastTweenTime)
 	TweenService:Create(loadingFrame, TweenInfo.new(averageTweenTime), {
 		Size = UDim2.new(loadingFrame.Size.X.Scale, 0, 0, 0),
 	}):Play()
-	task.wait(averageTweenTime)
+
+	spawnParticles = false
+
+	task.wait(slowTweenTime)
+
+	fadeGuiObject(title, 0, 1)
+	fadeGuiObject(versionLabel, 0, 1)
+	fadeGuiObject(icon, 0, 1)
 end
 
 function LoadingScreen.enable()

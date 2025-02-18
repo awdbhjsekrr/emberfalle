@@ -36,7 +36,7 @@ function ReplicationFocus.startServer()
 	ReplicationFocusContainer.Name = "ReplicationFocusContainer"
 	ReplicationFocusContainer.Parent = workspace
 	ReplicationFocusContainer.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-	Network.CreateReplicationFocusPart.OnServerInvoke = function(player: Player)
+	Network.CreateReplicationFocusPart.OnServerEvent:Connect(function(player: Player)
 		print("Creating ReplicationFocus part")
 		if replicationFocusCache[player] then
 			warn(`ReplicationFocus part already exists for {player}`)
@@ -53,7 +53,7 @@ function ReplicationFocus.startServer()
 		player.ReplicationFocus = newPart
 		replicationFocusCache[player] = newPart
 		return true
-	end
+	end)
 	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
@@ -63,8 +63,6 @@ function ReplicationFocus.startClient()
 		warn("ReplicationFocus already created.")
 		return
 	end
-	local createPartSuccess = Network.CreateReplicationFocusPart:InvokeServer()
-	assert(createPartSuccess ~= nil, "Error creating new ReplicationFocus.")
 	local player = Players.LocalPlayer
 	local camera = workspace.CurrentCamera
 	local myTag = `{player.UserId}ReplicationFocus`
@@ -82,6 +80,7 @@ function ReplicationFocus.startClient()
 			end
 		end)
 	end)
+	Network.CreateReplicationFocusPart:FireServer()
 end
 
 return ReplicationFocus
