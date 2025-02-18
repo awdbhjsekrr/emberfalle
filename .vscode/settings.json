@@ -1,18 +1,19 @@
 {
-	"editor.formatOnSave": true,
-	"editor.insertSpaces": false,
-	"editor.detectIndentation": false,
-	"luau-lsp.completion.imports.enabled": true,
-	"luau-lsp.completion.imports.suggestServices": true,
-	"luau-lsp.completion.imports.suggestRequires": true,
-	"[luau][lua]": {
-		"editor.defaultFormatter": "JohnnyMorganz.stylua"
-	},
-	"[json][toml]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode",
-		"editor.insertSpaces": false,
-		"prettier.tabWidth": 4,
-		"prettier.useTabs": true,
-		"prettier.singleQuote": false
-	}
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    "luau-lsp.completion.imports.enabled": true,
+    "luau-lsp.completion.imports.suggestServices": true,
+    "luau-lsp.completion.imports.suggestRequires": true,
+    "[luau][lua]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua"
+    },
+    "[json][toml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.insertSpaces": false,
+        "prettier.tabWidth": 4,
+        "prettier.useTabs": true,
+        "prettier.singleQuote": false
+    },
+    "stylua.targetReleaseVersion": "latest"
 }

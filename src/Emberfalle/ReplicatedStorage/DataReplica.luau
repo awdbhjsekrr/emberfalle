@@ -11,16 +11,16 @@ local DEFAULT_PROFILE_DATA = require(ReplicatedStorage.Source.SharedConstants.De
 
 local Network = ReplicatedStorage.Network
 
-local profileCache: { [Player]: DEFAULT_PROFILE_DATA.ClassType } = {}
+local dataCache: { [Player]: DEFAULT_PROFILE_DATA.ClassType } = {}
 
-local ProfileReplica = {}
+local DataReplica = {}
 
 function waitForDataReady(player: Player)
 	while true do
 		if not player or not player:IsDescendantOf(player) then
 			return
 		end
-		local profile = profileCache[player]
+		local profile = dataCache[player]
 		if profile then
 			return
 		end
@@ -29,19 +29,19 @@ function waitForDataReady(player: Player)
 end
 
 local function onPlayerRemoving(player: Player)
-	profileCache[player] = nil
+	dataCache[player] = nil
 end
 
-function ProfileReplica.get(player: Player): DEFAULT_PROFILE_DATA.ClassType
+function DataReplica.get(player: Player): DEFAULT_PROFILE_DATA.ClassType
 	waitForDataReady(player)
-	return profileCache[player]
+	return dataCache[player]
 end
 
-function ProfileReplica.startClient()
+function DataReplica.startClient()
 	Network.ProfileUpdated.OnClientEvent:Connect(function(player: Player, profile: DEFAULT_PROFILE_DATA.ClassType)
-		profileCache[player] = profile
+		dataCache[player] = profile
 	end)
 	Players.PlayerRemoving:Connect(onPlayerRemoving)
 end
 
-return ProfileReplica
+return DataReplica
