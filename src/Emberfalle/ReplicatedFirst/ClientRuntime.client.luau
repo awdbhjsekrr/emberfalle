@@ -34,7 +34,6 @@ local function postGameLoadTasks()
 	ReplicationFocus.startClient()
 
 	LoadingScreen.disable()
-	setCoreGuisEnabled(true)
 
 	GuiController.startClient()
 end

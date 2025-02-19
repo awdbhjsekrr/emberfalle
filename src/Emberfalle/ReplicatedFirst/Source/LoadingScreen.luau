@@ -6,6 +6,7 @@
 
 local Players = game:GetService("Players")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
 local MIN_RUN_TIME = 10
@@ -68,9 +69,9 @@ progressBar:GetPropertyChangedSignal("Size"):Connect(function()
 	progressLabel.Text = `Progress: {-math.floor(progressBar.Size.X.Scale * 100)}%`
 end)
 
-gui.Background.Container.ChildAdded:Connect(function(newParticle: Frame)
-	local particleSize = math.random(30, 70) * 0.0001
-	local transparency = math.random(40, 80) * 0.01
+gui.Background.Container.ChildAdded:Connect(function(newParticle: ImageLabel)
+	local particleSize = math.random(40, 100) * 0.0001
+	local transparency = math.random(50, 90) * 0.01
 	local colors = {
 		Color3.fromHex("A6FF40"),
 		Color3.fromHex("FFDE26"),
@@ -78,7 +79,7 @@ gui.Background.Container.ChildAdded:Connect(function(newParticle: Frame)
 	}
 	local thisColor = colors[math.random(1, #colors)]
 	newParticle.Size = UDim2.new(particleSize, 0, particleSize, 0)
-	newParticle.BackgroundColor3 = thisColor
+	newParticle.ImageColor3 = thisColor
 	newParticle.Position = UDim2.new(math.random(0, 100) * 0.01, 0, math.random(0, 100) * 0.01, 0)
 	fadeGuiObject(newParticle, 1, transparency)
 	TweenService:Create(newParticle, TweenInfo.new(slowTweenTime + 5), {
@@ -90,6 +91,21 @@ gui.Background.Container.ChildAdded:Connect(function(newParticle: Frame)
 
 	newParticle:Destroy()
 end)
+
+local function playEndingAnimation()
+	local CameraController = require(ReplicatedStorage.Source.CameraController)
+	fadeGuiObject(title, 0, 1)
+	fadeGuiObject(icon, 0, 1)
+	fadeGuiObject(versionLabel, 0, 1)
+	TweenService:Create(gui.Frame, TweenInfo.new(slowTweenTime + 0.5), {
+		Position = UDim2.new(0.5, 0, 0.3, 0),
+	}):Play()
+	CameraController.moveTo(CameraController.locations.Loading)
+	task.wait(averageTweenTime)
+	fadeGuiObject(gui.Background, 0, 1)
+	CameraController.tweenTo(CameraController.locations.MainMenu, 5)
+	task.wait(5)
+end
 
 local function playStartupAnimation()
 	setupGuiForStartupAnimation()
@@ -116,7 +132,7 @@ local function playStartupAnimation()
 	fadeGuiObject(title, 1, 0)
 	fadeGuiObject(icon, 1, 0)
 	fadeGuiObject(versionLabel, 1, 0)
-	task.wait(0.2)
+	task.wait(slowTweenTime)
 	fadeGuiObject(loadingText, 1, 0.5)
 	task.wait(1)
 	fadeGuiObject(leftBracket, 1, 0)
@@ -146,10 +162,6 @@ local function playStartupAnimation()
 	spawnParticles = false
 
 	task.wait(slowTweenTime)
-
-	fadeGuiObject(title, 0, 1)
-	fadeGuiObject(versionLabel, 0, 1)
-	fadeGuiObject(icon, 0, 1)
 end
 
 function LoadingScreen.enable()
@@ -164,6 +176,7 @@ function LoadingScreen.enable()
 end
 
 function LoadingScreen.disable()
+	playEndingAnimation()
 	gui.Parent = ReplicatedFirst.Instances
 end
 
