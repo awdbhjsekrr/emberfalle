@@ -18,7 +18,8 @@ ReplicationFocus.startServer()
 
 local function serverStartup()
 	-- Move any guis to custom StarterGui folder to load them without needing to load character first.
-	for _, gui in ipairs(game:GetService("StarterGui"):GetChildren()) do
+	for _, gui: ScreenGui in pairs(game:GetService("StarterGui"):GetChildren()) do
+		gui.Enabled = false
 		gui.Parent = ReplicatedStorage.StarterGui
 	end
 end

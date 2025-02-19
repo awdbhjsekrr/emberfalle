@@ -15,6 +15,7 @@ export type ClassType = {
 		},
 		trackers: {},
 		achievements: { [string]: number },
+		lastPlayedCharacter: number?,
 	},
 	characters: { DefaultCharacterData.ClassType },
 }

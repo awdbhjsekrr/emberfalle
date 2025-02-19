@@ -36,6 +36,7 @@ local function postGameLoadTasks()
 	LoadingScreen.disable()
 
 	GuiController.startClient()
+	GuiController.StartMenu.toggle()
 end
 
 preGameLoadTasks()
