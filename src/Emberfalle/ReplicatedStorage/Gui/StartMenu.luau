@@ -16,6 +16,8 @@ function StartMenu.toggle()
 	gui.Frame.Play.Visible = data.account.lastPlayedCharacter ~= nil
 	gui.Frame.LoadCharacter.Visible = #data.characters >= 2
 	gui.Enabled = not gui.Enabled
+	if not data.account.lastPlayedCharacter then
+	end
 end
 
 return StartMenu
